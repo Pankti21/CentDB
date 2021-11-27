@@ -49,7 +49,7 @@ public class Register {
 
     boolean checkUserIdExists(){
         //if it exists in file
-        System.out.println("User ID already exists!");
+        //System.out.println("User ID already exists!");
         return false;
     }
 
