@@ -270,7 +270,7 @@ public class QueryProcessor {
                                 return;
                             }
 
-                            // TODO: validate tableFieldTemp
+                            //TODO: validate tableFieldTemp
                         } else {
                             System.out.println("Invalid query. No reference given for foreign key.");
                             return;
@@ -553,6 +553,7 @@ public class QueryProcessor {
             }
 
             String lastCharacter = currentInput.substring(currentInput.length() - 1);
+            //For multiline query input
             if (!lastCharacter.equals(";")) {
                 input = input.concat(" " + currentInput);
                 continue;

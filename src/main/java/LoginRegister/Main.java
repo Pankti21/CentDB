@@ -3,10 +3,11 @@ package LoginRegister;
 import QueryProcessor.QueryProcessor;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, NoSuchAlgorithmException {
         int choice;
         System.out.println("1. Register");
         System.out.println("2. Login");
