@@ -93,14 +93,27 @@ public class QueryProcessor {
                     lineData.remove(0);
                 }
 
-                String fkeyTableName = "";
+                String fkTableName = "";
+                String fkFieldName = "";
 
                 // check if the column is a primary key
                 if (lineData.size() > 0 && lineData.get(0).equals("pk")) {
                     lineDataMap.put("pk", "true");
-                } else if (lineData.size() > 0) {
-                    fkeyTableName = lineData.get(0);
                     lineData.remove(0);
+                }
+
+                if (lineData.size() >= 3 && lineData.get(0).equals("fk")) {
+                    fkTableName = lineData.get(1);
+                    fkFieldName = lineData.get(2);
+
+                    if (fkTableName.length() > 0 && fkFieldName.length() > 0) {
+                        lineDataMap.put("fk", "true");
+                        lineDataMap.put("fkTableName", fkTableName);
+                        lineDataMap.put("fkFieldName", fkFieldName);
+                        lineData.remove(0);
+                        lineData.remove(0);
+                        lineData.remove(0);
+                    }
                 }
 
                 if (tablesMetaData.get(table) != null && tablesMetaData.get(table).size() > 0) {
@@ -111,16 +124,6 @@ public class QueryProcessor {
                 } else {
                     // create and insert new list as it doesn't exist already
                     tablesMetaData.put(table, List.of(lineDataMap));
-                }
-
-                // TODO: save foreign key
-                String fkeyColumnName = "";
-                if (fkeyTableName.length() > 0 && lineData.size() == 1) {
-                    fkeyColumnName = lineData.get(0);
-                    lineData.remove(0);
-                } else if (lineData.size() == 2) {
-                    fkeyTableName = lineData.get(0);
-                    fkeyColumnName = lineData.get(1);
                 }
 
                 // read next line
@@ -149,12 +152,18 @@ public class QueryProcessor {
                     String colType = column.get("type");
                     String colSize = column.get("size");
                     String colPk = column.get("pk");
-                    // TODO: save foreign key data
+                    String colFk = column.get("fk");
+                    String colFkTable = column.get("fkTableName");
+                    String colFkField = column.get("fkFieldName");
 
                     output = output.concat("|").concat(colName);
                     output = output.concat("|").concat(colType);
                     if (colType.equals("varchar")) output = output.concat("|").concat(colSize);
                     if (colPk != null && colPk.equals("true")) output = output.concat("|pk");
+
+                    if (colFk != null && colFk.equals("true")) {
+                        output = output.concat("|fk|").concat(colFkTable).concat("|").concat(colFkField);
+                    }
 
                     writer.println(output);
                     output = tableName;
@@ -265,18 +274,18 @@ public class QueryProcessor {
                             String tableNameTemp = columnData.get(i+1);
                             String tableFieldTemp = columnData.get(i+3);
 
-                            if (!QueryValidator.validateTableFileExists(currentDatabase, tableNameTemp)) {
-                                System.out.println("Invalid query. Referenced table in foreign key does not exist.");
+                            if (QueryValidator.validateForeignKeyReference(currentDatabase, columnType, tableNameTemp, tableFieldTemp, tablesMetaData)) {
+                                columnMap.put("fk", "true");
+                                columnMap.put("fkTableName", tableNameTemp);
+                                columnMap.put("fkFieldName", tableFieldTemp);
+                                continue;
+                            } else {
                                 return;
                             }
-
-                            // TODO: validate tableFieldTemp
                         } else {
                             System.out.println("Invalid query. No reference given for foreign key.");
                             return;
                         }
-
-                        // TODO: implement complete foreign key functionality
                     }
                 }
 
@@ -465,7 +474,7 @@ public class QueryProcessor {
 
             String data = useAllColumns ? values.get(idx) : values.get(columns.indexOf(column));
             HashMap<String, String> columnMetaData = getColumnMetaInfo(tableName, column);
-            if (QueryValidator.validateDataAsPerColumnMeta(columnMetaData, data, tableRows.get(tableName))) {
+            if (QueryValidator.validateDataAsPerColumnMeta(tableName, columnMetaData, data, tableRows)) {
                 newRowData.put(column, data);
                 idx++;
             } else {
