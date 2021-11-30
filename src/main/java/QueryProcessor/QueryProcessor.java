@@ -8,6 +8,10 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import Logger.LogType;
+import Logger.Logger;
+import Logger.MainLogger;
+
 public class QueryProcessor {
     // path of global data dictionary
     public static int varcharMaxLength = 8000;
@@ -33,7 +37,9 @@ public class QueryProcessor {
     public static HashMap<String, String> tableColumnsOrder = new HashMap<>();
 
     public String currentDatabase = "";
-
+    
+    public MainLogger logger = new MainLogger();
+    
     public void resetDatabaseState () {
         currentDatabase = "";
         tablesMetaData = new HashMap<>();
@@ -47,11 +53,14 @@ public class QueryProcessor {
         if (QueryValidator.checkIfDBExists(dbName)) {
             Files.createFile(Path.of(dbName, "meta.txt"));
             if (QueryValidator.checkIfDbHasMeta(dbName)) {
-                System.out.printf("Database %s created successfully.\n", dbName);
+            	logger.setChangeMessage(Logger.databaseCreationChangeMessage.formatted(dbName));
+            	System.out.printf("Database %s created successfully.\n", dbName);
             } else {
+            	logger.setChangeMessage(Logger.databaseMetaErrorChangeMessage.formatted(dbName));
                 System.out.printf("Database %s created successfully. Meta file creation failed.\n", dbName);
             }
         } else {
+        	logger.setChangeMessage(Logger.databaseMetaErrorChangeMessage.formatted(dbName));
             System.out.println("Database creation failed.");
         }
     }
@@ -162,7 +171,7 @@ public class QueryProcessor {
             }
 
             writer.close();
-
+            logger.setChangeMessage("Table Created Successfully");
             System.out.println("Table created successfully.");
         } catch (IOException e) {
             e.printStackTrace();
@@ -190,7 +199,9 @@ public class QueryProcessor {
 
         // verifies if the table already exists
         if (tablesMetaData.containsKey(tableName)) {
-            System.out.println("Invalid query. Table already exists.");
+        	logger.setChangeMessage("Invalid query. Table already exists.");
+        	Logger.log(logger);
+        	System.out.println("Invalid query. Table already exists.");
             return;
         }
 
@@ -208,6 +219,7 @@ public class QueryProcessor {
             for (String column : columns) {
                 List<String> columnData = new ArrayList<>(List.of(column.trim().split(" ")));
                 if (columnData.size() < 2) {
+                	logger.setChangeMessage("Invalid query.");
                     System.out.println("Invalid query.");
                     return;
                 }
@@ -237,6 +249,7 @@ public class QueryProcessor {
 
                     columnMap.put("size", Integer.toString(columnLength));
                 } else if (!columnType.equals("int")) {
+                	logger.setChangeMessage("Invalid query.");
                     System.out.println("Invalid query.");
                 }
 
@@ -266,12 +279,15 @@ public class QueryProcessor {
                             String tableFieldTemp = columnData.get(i+3);
 
                             if (!QueryValidator.validateTableFileExists(currentDatabase, tableNameTemp)) {
+                            	logger.setChangeMessage("Invalid query. Referenced table in foreign key does not exist.");
                                 System.out.println("Invalid query. Referenced table in foreign key does not exist.");
                                 return;
                             }
 
                             // TODO: validate tableFieldTemp
                         } else {
+                        	
+                        	logger.setChangeMessage("Invalid query. No reference given for foreign key.");
                             System.out.println("Invalid query. No reference given for foreign key.");
                             return;
                         }
@@ -291,6 +307,7 @@ public class QueryProcessor {
             Files.write(Path.of(currentDatabase, tableName+ ".txt"), columnNamesAsString.getBytes());
             tableColumnsOrder.put(tableName, columnNamesAsString);
         } else {
+        	logger.setChangeMessage("Invalid query");
             System.out.println("Invalid query.");
         }
     }
@@ -419,10 +436,11 @@ public class QueryProcessor {
     public void parseInsertValueInTableQuery (List<String> queryChunks) {
         // check if no database is selected
         if (currentDatabase.length() == 0) {
+        	logger.setChangeMessage("No Database Selected");
             System.out.println("No database selected.");
             return;
         }
-
+        
         List<String> queryList = new ArrayList<>(queryChunks);
 
         // remove the 'insert' token
@@ -436,6 +454,7 @@ public class QueryProcessor {
         String[] columnsAndValuesFromQuery = queryWithoutPrecedingTokens.split("[Vv][Aa][Ll][Uu][Ee][Ss]");
 
         if (columnsAndValuesFromQuery.length != 2) {
+        	logger.setChangeMessage("Invalid query. Length");
             System.out.println("Invalid query. Length");
             return;
         }
@@ -474,12 +493,15 @@ public class QueryProcessor {
         }
 
         // add the validated data to the list of rows for this table
+        Integer previousSize = tableRows.get(tableName).size();
         List<HashMap<String, String>> newTableData = tableRows.get(tableName) != null ? new ArrayList<>(tableRows.get(tableName)) : new ArrayList<>();
         newTableData.add(newRowData);
         tableRows.put(tableName, newTableData);
 
         persistTableDataToDisk(tableName);
         System.out.println("Record added successfully.");
+        logger.setTableName(tableName);
+        logger.setChangeMessage("%s row(s) added ".formatted(tableRows.get(tableName).size()-previousSize));
     }
 
     // write the contents of tableRows to table files
@@ -523,23 +545,31 @@ public class QueryProcessor {
     }
 
     public void handleQuery () throws IOException {
-        Scanner sc = new Scanner(System.in);
+    	Scanner sc = new Scanner(System.in);
         String input = "";
-
+        logger.setActiveDatabase(currentDatabase);
+        logger.setCurrentTimeMillis(System.currentTimeMillis());
+        logger.setUserName("test");
+        
         // infinite input loop
+        
         while (true) {
             String currentInput;
             if (input.length() == 0) {
                 System.out.printf("%s> ", currentDatabase.length() > 0 ? currentDatabase : "sql");
             }
-
+            
             // take the input from user
             // trim removes extra spaces leading or following the input
             currentInput = sc.nextLine().trim();
-
+            logger.setCommand(currentInput);
+            
+            
             // if user enters exit, leave the loop
             if (input.length() == 0 && currentInput.equals("exit")) {
-                System.out.println("Query processor closed.");
+            	logger.setExecutionTimeMillis(System.currentTimeMillis()-logger.getCurrentTimeMillis());
+            	Logger.log(logger);
+            	System.out.println("Query processor closed.");
                 break;
             } else if (currentInput.equals("")) {
                 // if the user entered empty string, continue again
@@ -580,31 +610,110 @@ public class QueryProcessor {
             switch (queryType) {
                 case "create":
                     String createQueryType = inputChunks.get(1).toLowerCase();
+                    Long startTime = System.currentTimeMillis();
                     if (createQueryType.equals("database") && QueryValidator.validateCreateDatabaseQuery(inputChunks)) {
                         // query is for creating database and is validated
                         createDatabase(inputChunks.get(2));
+                        logger.setExecutionTimeMillis(System.currentTimeMillis()-logger.getCurrentTimeMillis());
+                        logger.setLogType(LogType.CREATE);
+                    	Logger.log(logger);   
                     } else if (createQueryType.equals("table")) {
-                        parseCreateTableQuery(inputChunks);
+                    	parseCreateTableQuery(inputChunks);
+                    	logger.setExecutionTimeMillis(System.currentTimeMillis()-logger.getCurrentTimeMillis());
+                        logger.setLogType(LogType.CREATE);
+                    	Logger.log(logger);   
                     }
+                    Long endTime = System.currentTimeMillis();
+                    logger.setExecutionTimeMillis(endTime-startTime);
                     break;
-
                 case "use":
                     if (QueryValidator.validateUseDatabaseQuery(inputChunks)) {
+                    	startTime = System.currentTimeMillis();
                         currentDatabase = inputChunks.get(1);
                         parseMetaDataOfTable();
                         readAllTablesData();
+                        endTime = System.currentTimeMillis();
+                        logger.setActiveDatabase(currentDatabase);
+                        logger.setExecutionTimeMillis(endTime-startTime);
+                        logger.setChangeMessage("Database Selected "+currentDatabase);
+                        logger.setLogType(LogType.USE);
+                        logger.setTotalTables(tableRows.size());
+                        int totalRecords = tableRows.values().stream().map(value->value.size()).collect(Collectors.toList()).stream().mapToInt(Integer::intValue).sum();
+                        System.out.println(totalRecords);
+                        logger.setTotalRecords(totalRecords);
+                        Logger.log(logger);
                     }
                     break;
-
                 case "insert":
+                	startTime = System.currentTimeMillis();
                     String secondToken = inputChunks.get(1).toLowerCase();
                     if (secondToken.equals("into")) {
                         parseInsertValueInTableQuery(inputChunks);
+                        logger.setLogType(LogType.INSERT);
+                        Logger.log(logger);
                     }
+                	endTime = System.currentTimeMillis();
+                	logger.setExecutionTimeMillis(endTime-startTime);
                     break;
-
+                case "select":
+                	startTime = System.currentTimeMillis();
+                	SelectOptions selectOptions = new SelectOptions();
+                	List<String> columns = new ArrayList<>();
+                	secondToken = inputChunks.get(1).toLowerCase();
+                	inputChunks.remove(0);
+                	int columnIndex = inputChunks.indexOf("from");
+            		String tableName = inputChunks.get(columnIndex+1);
+            		selectOptions.setTableName(tableName);
+            		if(secondToken.equals("*")) {
+                		selectOptions.setAll(true);
+                	}
+                	else {
+                		for(int i=0;i<columnIndex;i++) {	
+                			if(inputChunks.get(i).equals(",")) {
+                				continue;
+                			}
+                			columns.add(inputChunks.get(i));
+                		}
+                		selectOptions.setColumns(columns);
+                	}
+              		int whereIndex = inputChunks.indexOf("where");
+            		if(whereIndex!=-1) {
+            			String columnString = inputChunks.get(whereIndex+1);
+            			String columnValue = inputChunks.get(whereIndex+3);
+            			selectOptions.setColumnName(columnString);
+            			selectOptions.setColumnValue(columnValue);
+            			selectOptions.setWhere(true);
+            		}
+            		System.out.println(selectOptions.toString());
+            		parseSelectQuery(selectOptions);
+                	endTime = System.currentTimeMillis();
+                	logger.setExecutionTimeMillis(endTime-startTime);
+            		logger.setTableName(tableName);
+                    logger.setLogType(LogType.SELECT);
+                    Logger.log(logger);
+                    break;
+                case "update":
+                	startTime = System.currentTimeMillis();
+                	parseUpdateQuery(inputChunks);
+                	endTime = System.currentTimeMillis();
+                	logger.setExecutionTimeMillis(endTime-startTime);
+                	logger.setTotalTables(tableRows.size());
+                    int totalRecords = tableRows.values().stream().map(value->value.size()).collect(Collectors.toList()).stream().mapToInt(Integer::intValue).sum();
+                    System.out.println(totalRecords);
+                    logger.setTotalRecords(totalRecords);
+                	logger.setLogType(LogType.UPDATE);
+                	Logger.log(logger);
+                	break;
+                case "test":
+                	System.out.println(tablesMetaData.get("employee"));
+              	break;
                 default:
-                    System.out.println("Not a valid query.");
+                	startTime = System.currentTimeMillis();
+                	endTime = System.currentTimeMillis();
+                	logger.setLogType(LogType.INVALID);
+                	logger.setChangeMessage("Invalid login");
+                	Logger.log(logger);
+                	System.out.println("Not a valid query.");
                     break;
             }
 
@@ -612,4 +721,85 @@ public class QueryProcessor {
             input = "";
         }
     }
+    
+    private void parseUpdateQuery(List<String> inputChunks) {
+    	String tableName = inputChunks.get(1);
+    	UpdateOptions updateOptions = new UpdateOptions();
+    	updateOptions.setTableName(tableName);
+    	int setIndex = inputChunks.indexOf("set");
+    	updateOptions.setTargetColumnName(inputChunks.get(setIndex+1));
+    	updateOptions.setTargetColumnValue(inputChunks.get(setIndex+3));
+       	int whereIndex = inputChunks.indexOf("where");
+    	updateOptions.setColumnName(inputChunks.get(whereIndex+1));
+    	updateOptions.setColumnValue(inputChunks.get(whereIndex+3));
+    	List<HashMap<String, String>> rows = tableRows.get(tableName);
+    	for(HashMap<String, String> row:rows) {
+    		if(row.containsKey(updateOptions.getColumnName())) {
+    			if(row.get(updateOptions.getColumnName()).equals(updateOptions.getColumnValue())) {
+    				if(row.containsKey(updateOptions.getTargetColumnName())) {
+    					String value = updateOptions.getTargetColumnValue();
+    					row.replace(updateOptions.getTargetColumnName(), value);
+    				}
+    			}
+    		}
+    	}
+    	persistTableDataToDisk(tableName);
+    	logger.setTableName(tableName);
+    	logger.setChangeMessage("updated 1 row(s)");
+    }
+
+	private void parseSelectQuery(SelectOptions selectOptions) throws IOException {
+			 String path = Path.of(currentDatabase, selectOptions.getTableName() + ".txt").toString();
+			 FileReader fr = new FileReader(new File(path));
+			 BufferedReader reader = new BufferedReader(fr);
+			 String nextLine = "";
+			 String columnString = reader.readLine();
+			 List<Integer> requiredIndexes = new ArrayList<>();
+			 List<String> columns =  Arrays.asList(columnString.split("\\|"));
+			 for(int i = 0 ; i<columns.size() ; i++) {
+				if(selectOptions.isAll()) {
+					System.out.format("%20s",columns.get(i));
+				}else if(selectOptions.getColumns().contains(columns.get(i))) {
+					System.out.format("%20s",columns.get(i));
+					requiredIndexes.add(i);
+				}else {
+					
+				}
+			 }
+			 System.out.println();
+			 while((nextLine=reader.readLine())!=null) {
+				 List<String> columnValues = Arrays.asList(nextLine.split("\\|"));
+				 for(int i=0;i<columnValues.size();i++) {
+					 if(selectOptions.isAll()) {
+						 if(selectOptions.isWhere()) {
+							 int index = columns.indexOf(selectOptions.getColumnName());
+							 if(columnValues.get(index).equals(selectOptions.getColumnValue())) {
+								 System.out.format("%20s", columnValues.get(i));
+							 }
+						 }
+						 else {
+							 System.out.format("%20s", columnValues.get(i));
+						 }
+					 }
+					 else {
+						 if(requiredIndexes.contains(i)) {
+							 if(selectOptions.isWhere()) {
+							 int index = columns.indexOf(selectOptions.getColumnName());
+							 if(columnValues.get(index).equals(selectOptions.getColumnValue())) {
+								 System.out.format("%20s", columnValues.get(i));
+							 }
+							 }
+							 else {
+							 	 System.out.format("%20s", columnValues.get(i));
+							 }
+							 
+						 }
+					 }
+				 
+			 }
+				 System.out.println();
+		}
+		System.out.println("Got %s rows ".formatted(tableRows.get(selectOptions.getTableName()).size()));
+		logger.setChangeMessage("Got %s rows ".formatted(tableRows.get(selectOptions.getTableName()).size()));
+	}
 }
