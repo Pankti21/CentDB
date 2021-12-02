@@ -36,61 +36,66 @@ public class Logger {
 	
 	private static void processGeneralLogs(MainLogger logger, File generalLogs) throws IOException {
 		Formatter formatter = new Formatter();
-		if(logger.getUserName()!=null) {
-			formatter.format("%s|%s\n", "user",logger.getUserName());
+		if(logger.getUserName()!=null && !(logger.getUserName().isBlank())) {
+			formatter.format("%s|%s|", "user",logger.getUserName());
 		}
-		if(logger.getActiveDatabase()!=null) {
-			formatter.format("%s|%s\n","database",logger.getActiveDatabase());
+		if(logger.getActiveDatabase()!=null && !(logger.getActiveDatabase().isBlank())) {
+			formatter.format("%s|%s|","database",logger.getActiveDatabase());
+		}
+		if(logger.getTableName()!=null) {
+			formatter.format("%s|%s|","table",logger.getTableName());
 		}
 		if(logger.getTotalTables()!=null) {
-			formatter.format("%s|%s\n", "Total Tables",logger.getTotalTables());
+			formatter.format("%s|%s|", "Total Tables",logger.getTotalTables());
 		}
 		if(logger.getTotalRecords()!=null) {
-			formatter.format("%s|%s\n", "Total Records",logger.getTotalRecords());
+			formatter.format("%s|%s|", "Total Records",logger.getTotalRecords());
 		}
-		if(logger.getCommand()!=null) {
-			formatter.format("%s|%s\n","query",logger.getCommand());
+		if(logger.getCommand()!=null && !(logger.getCommand().isBlank())) {
+			formatter.format("%s|%s|","query",logger.getCommand());
 		}
-		formatter.format("%s|%s%s\n","start_time",logger.getCurrentTimeMillis(),"ms");
-		formatter.format("%s|%s%s\n","execution_time",logger.getExecutionTimeMillis(),"ms");
+		if(logger.getLogType()!=null) {
+		formatter.format("%s|%s|", "type",logger.getLogType());
+		}
+		formatter.format("%s|%s%s|","start_time",logger.getCurrentTimeMillis(),"ms");
+		formatter.format("%s|%s%s","execution_time",logger.getExecutionTimeMillis(),"ms");
 		formatter.format("%s", "\n");
-		System.out.println(formatter);
 		Files.write(generalLogs.toPath(), formatter.toString().getBytes(), StandardOpenOption.APPEND);
 	}
 	
 	private static void processQueryLogs(MainLogger logger, File queryLogs) throws IOException {
 		Formatter formatter = new Formatter();
 		if(logger.getUserName()!=null) {
-			formatter.format("%s|%s\n", "user",logger.getUserName());
+			formatter.format("%s|%s|", "user",logger.getUserName());
 		}
 		if(logger.getActiveDatabase()!=null) {
-			formatter.format("%s|%s\n","database",logger.getActiveDatabase());
+			formatter.format("%s|%s|","database",logger.getActiveDatabase());
 		}
 		if(logger.getTableName()!=null) {
-			formatter.format("%s|%s\n","table",logger.getTableName());
+			formatter.format("%s|%s|","table",logger.getTableName());
 		}
 		if(logger.getCommand()!=null) {
-			formatter.format("%s|%s\n","query",logger.getCommand());
+			formatter.format("%s|%s|","query",logger.getCommand());
 		}
-		formatter.format("%s|%s%s\n","start_time",logger.getCurrentTimeMillis(),"ms");
-		formatter.format("%s|%s%s\n","execution_time",logger.getExecutionTimeMillis(),"ms");
-		formatter.format("%s","\n");
+		formatter.format("%s|%s%s|","start_time",logger.getCurrentTimeMillis(),"ms");
+		formatter.format("%s|%s%s","execution_time",logger.getExecutionTimeMillis(),"ms");
+		formatter.format("%s", "\n");
 		Files.write(queryLogs.toPath(), formatter.toString().getBytes(), StandardOpenOption.APPEND);
 		}
 	
 	private static void processEventLogs(MainLogger logger, File eventLogs) throws IOException {
 		Formatter formatter = new Formatter();
 		if(logger.getActiveDatabase()!=null) {
-			formatter.format("%s|%s\n", "database",logger.getActiveDatabase());
+			formatter.format("%s|%s|", "database",logger.getActiveDatabase());
 		}
 		if(logger.getTableName()!=null) {
-			formatter.format("%s|%s\n","table",logger.getTableName());
+			formatter.format("%s|%s|","table",logger.getTableName());
 		}
 		if(logger.getChangeMessage()!=null) {
-		formatter.format("%s|%s\n", "message",logger.getChangeMessage());
+		formatter.format("%s|%s|", "message",logger.getChangeMessage());
 		}
 		if(logger.getLogType()!=null) {
-		formatter.format("%s|%s\n", "type",logger.getLogType());
+		formatter.format("%s|%s", "type",logger.getLogType());
 		}
 		formatter.format("%s", "\n");
 		Files.write(eventLogs.toPath(), formatter.toString().getBytes(), StandardOpenOption.APPEND);
@@ -107,11 +112,9 @@ public class Logger {
 			}
 			if(!eventLogs.exists()) {
 				eventLogs.createNewFile();
-				System.out.println(eventLogs.exists());
 			}
 			if(!queryLogs.exists()) {
 				queryLogs.createNewFile();
-				System.out.println(eventLogs.exists());
 			}
 		} catch (Exception e) {
 			System.err.println("Error in creating log files");

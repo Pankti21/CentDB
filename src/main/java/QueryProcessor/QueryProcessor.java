@@ -102,14 +102,27 @@ public class QueryProcessor {
                     lineData.remove(0);
                 }
 
-                String fkeyTableName = "";
+                String fkTableName = "";
+                String fkFieldName = "";
 
                 // check if the column is a primary key
                 if (lineData.size() > 0 && lineData.get(0).equals("pk")) {
                     lineDataMap.put("pk", "true");
-                } else if (lineData.size() > 0) {
-                    fkeyTableName = lineData.get(0);
                     lineData.remove(0);
+                }
+
+                if (lineData.size() >= 3 && lineData.get(0).equals("fk")) {
+                    fkTableName = lineData.get(1);
+                    fkFieldName = lineData.get(2);
+
+                    if (fkTableName.length() > 0 && fkFieldName.length() > 0) {
+                        lineDataMap.put("fk", "true");
+                        lineDataMap.put("fkTableName", fkTableName);
+                        lineDataMap.put("fkFieldName", fkFieldName);
+                        lineData.remove(0);
+                        lineData.remove(0);
+                        lineData.remove(0);
+                    }
                 }
 
                 if (tablesMetaData.get(table) != null && tablesMetaData.get(table).size() > 0) {
@@ -120,16 +133,6 @@ public class QueryProcessor {
                 } else {
                     // create and insert new list as it doesn't exist already
                     tablesMetaData.put(table, List.of(lineDataMap));
-                }
-
-                // TODO: save foreign key
-                String fkeyColumnName = "";
-                if (fkeyTableName.length() > 0 && lineData.size() == 1) {
-                    fkeyColumnName = lineData.get(0);
-                    lineData.remove(0);
-                } else if (lineData.size() == 2) {
-                    fkeyTableName = lineData.get(0);
-                    fkeyColumnName = lineData.get(1);
                 }
 
                 // read next line
@@ -158,12 +161,18 @@ public class QueryProcessor {
                     String colType = column.get("type");
                     String colSize = column.get("size");
                     String colPk = column.get("pk");
-                    // TODO: save foreign key data
+                    String colFk = column.get("fk");
+                    String colFkTable = column.get("fkTableName");
+                    String colFkField = column.get("fkFieldName");
 
                     output = output.concat("|").concat(colName);
                     output = output.concat("|").concat(colType);
                     if (colType.equals("varchar")) output = output.concat("|").concat(colSize);
                     if (colPk != null && colPk.equals("true")) output = output.concat("|pk");
+
+                    if (colFk != null && colFk.equals("true")) {
+                        output = output.concat("|fk|").concat(colFkTable).concat("|").concat(colFkField);
+                    }
 
                     writer.println(output);
                     output = tableName;
@@ -277,22 +286,18 @@ public class QueryProcessor {
                         if (i + 4 < columnData.size()) {
                             String tableNameTemp = columnData.get(i+1);
                             String tableFieldTemp = columnData.get(i+3);
-
-                            if (!QueryValidator.validateTableFileExists(currentDatabase, tableNameTemp)) {
-                            	logger.setChangeMessage("Invalid query. Referenced table in foreign key does not exist.");
-                                System.out.println("Invalid query. Referenced table in foreign key does not exist.");
+                            if (QueryValidator.validateForeignKeyReference(currentDatabase, columnType, tableNameTemp, tableFieldTemp, tablesMetaData)) {
+                                columnMap.put("fk", "true");
+                                columnMap.put("fkTableName", tableNameTemp);
+                                columnMap.put("fkFieldName", tableFieldTemp);
+                                continue;
+                            } else {
                                 return;
                             }
-
-                            // TODO: validate tableFieldTemp
                         } else {
-                        	
-                        	logger.setChangeMessage("Invalid query. No reference given for foreign key.");
                             System.out.println("Invalid query. No reference given for foreign key.");
                             return;
                         }
-
-                        // TODO: implement complete foreign key functionality
                     }
                 }
 
@@ -484,7 +489,7 @@ public class QueryProcessor {
 
             String data = useAllColumns ? values.get(idx) : values.get(columns.indexOf(column));
             HashMap<String, String> columnMetaData = getColumnMetaInfo(tableName, column);
-            if (QueryValidator.validateDataAsPerColumnMeta(columnMetaData, data, tableRows.get(tableName))) {
+            if (QueryValidator.validateDataAsPerColumnMeta(tableName, columnMetaData, data, tableRows)) {
                 newRowData.put(column, data);
                 idx++;
             } else {
@@ -639,7 +644,6 @@ public class QueryProcessor {
                         logger.setLogType(LogType.USE);
                         logger.setTotalTables(tableRows.size());
                         int totalRecords = tableRows.values().stream().map(value->value.size()).collect(Collectors.toList()).stream().mapToInt(Integer::intValue).sum();
-                        System.out.println(totalRecords);
                         logger.setTotalRecords(totalRecords);
                         Logger.log(logger);
                     }
@@ -684,7 +688,6 @@ public class QueryProcessor {
             			selectOptions.setColumnValue(columnValue);
             			selectOptions.setWhere(true);
             		}
-            		System.out.println(selectOptions.toString());
             		parseSelectQuery(selectOptions);
                 	endTime = System.currentTimeMillis();
                 	logger.setExecutionTimeMillis(endTime-startTime);
@@ -694,19 +697,18 @@ public class QueryProcessor {
                     break;
                 case "update":
                 	startTime = System.currentTimeMillis();
-                	parseUpdateQuery(inputChunks);
+                	boolean update = parseUpdateQuery(inputChunks);
                 	endTime = System.currentTimeMillis();
                 	logger.setExecutionTimeMillis(endTime-startTime);
                 	logger.setTotalTables(tableRows.size());
                     int totalRecords = tableRows.values().stream().map(value->value.size()).collect(Collectors.toList()).stream().mapToInt(Integer::intValue).sum();
-                    System.out.println(totalRecords);
                     logger.setTotalRecords(totalRecords);
-                	logger.setLogType(LogType.UPDATE);
-                	Logger.log(logger);
+                    logger.setLogType(LogType.UPDATE);
+                	if(!update) {
+                		logger.setLogType(LogType.ERROR);
+                    }
+                   Logger.log(logger);
                 	break;
-                case "test":
-                	System.out.println(tablesMetaData.get("employee"));
-              	break;
                 default:
                 	startTime = System.currentTimeMillis();
                 	endTime = System.currentTimeMillis();
@@ -722,7 +724,7 @@ public class QueryProcessor {
         }
     }
     
-    private void parseUpdateQuery(List<String> inputChunks) {
+    private boolean parseUpdateQuery(List<String> inputChunks) {
     	String tableName = inputChunks.get(1);
     	UpdateOptions updateOptions = new UpdateOptions();
     	updateOptions.setTableName(tableName);
@@ -732,6 +734,24 @@ public class QueryProcessor {
        	int whereIndex = inputChunks.indexOf("where");
     	updateOptions.setColumnName(inputChunks.get(whereIndex+1));
     	updateOptions.setColumnValue(inputChunks.get(whereIndex+3));
+    	
+    	/* checking if the column to be updated uses reference */
+    
+    	List<HashMap<String, String>> metaData = tablesMetaData.get(tableName);
+    	for(HashMap<String, String> meta : metaData) {
+    		if(meta.containsKey("fk")) {
+    			String columnName = meta.get("name");
+    			if(columnName.equals(updateOptions.getTargetColumnName())) {
+    				boolean exist = QueryValidator.validateDataInForeignKeyTable(updateOptions.getTargetColumnValue(), meta.get("fkTableName"), meta.get("fkFieldName"), tableRows);
+    				if(!exist) {
+    					System.out.println("value "+updateOptions.getTargetColumnValue()+" does not exist in referenced table "+meta.get("fkTableName"));
+    					logger.setChangeMessage("value "+updateOptions.getTargetColumnValue()+" does not exist in referenced table "+meta.get("fkTableName"));
+    					return false;
+    				}
+    			}
+    		}
+    	}
+    	
     	List<HashMap<String, String>> rows = tableRows.get(tableName);
     	for(HashMap<String, String> row:rows) {
     		if(row.containsKey(updateOptions.getColumnName())) {
@@ -746,6 +766,7 @@ public class QueryProcessor {
     	persistTableDataToDisk(tableName);
     	logger.setTableName(tableName);
     	logger.setChangeMessage("updated 1 row(s)");
+    	return true;
     }
 
 	private void parseSelectQuery(SelectOptions selectOptions) throws IOException {

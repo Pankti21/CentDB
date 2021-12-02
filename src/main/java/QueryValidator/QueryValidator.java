@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class QueryValidator {
 
@@ -47,16 +48,72 @@ public class QueryValidator {
 
     // checks if a table file exists
     public static boolean validateTableFileExists (String dbName, String tableName) {
-        return Files.exists(Path.of(dbName, tableName));
+        return Files.exists(Path.of(dbName, tableName + ".txt"));
+    }
+
+    // checks if a foreign key data is correct for a table
+    public static boolean validateForeignKeyReference(
+            String dbName,
+            String fieldType,
+            String fkTableName,
+            String fkFieldName,
+            HashMap<String, List<HashMap<String, String>>> tablesMetaData
+    ) {
+        boolean valid = true;
+
+        if (!validateTableFileExists(dbName, fkTableName)) {
+            System.out.println("Invalid query. Referenced table in foreign key does not exist.");
+            valid = false;
+        } else if (tablesMetaData.containsKey(fkTableName)) {
+            boolean hasPkField = false;
+            for (HashMap<String, String> col: tablesMetaData.get(fkTableName)) {
+                if (!col.get("name").equals(fkFieldName)) continue;
+                if (!(col.containsKey("pk") && col.get("pk").equals("true"))) continue;
+
+                hasPkField = true;
+                // checks if the data types of both the fields match
+                if (!col.get("type").equals(fieldType)) {
+                    System.out.println("Invalid query. Data types of foreign key and referenced table column do not match.");
+                    valid = false;
+                }
+
+            }
+            if (!hasPkField) {
+                System.out.printf("Invalid query. Table %s has no column named %s which is a primary key.\n", fkTableName, fkFieldName);
+                valid = false;
+            }
+        }
+
+        return valid;
+    }
+
+    // validate if a referenced value exists in the referenced table
+    public static boolean validateDataInForeignKeyTable (
+            String data,
+            String fkTableName,
+            String fkFieldName,
+            HashMap<String, List<HashMap<String, String>>> allRows
+    ) {
+        if (allRows.containsKey(fkTableName)) {
+            for (HashMap<String, String> value: allRows.get(fkTableName)) {
+                if (value.containsKey(fkFieldName) && value.get(fkFieldName).equals(data)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // validate if data is good to insert in a table
     public static boolean validateDataAsPerColumnMeta (
+            String tableName,
             HashMap<String, String> columnMeta,
             String data,
-            List<HashMap<String, String>> rows
+            HashMap<String, List<HashMap<String, String>>> allRows
     ) {
         boolean valid = true;
+
+        List<HashMap<String, String>> rows = allRows.get(tableName);
 
         // if the column is pk, check if the same value exists elsewhere
         if (rows != null && columnMeta.containsKey("pk") && columnMeta.get("pk").equals("true")) {
@@ -77,6 +134,16 @@ public class QueryValidator {
             if (!data.matches("\\d+")) {
                 valid = false;
                 System.out.println("Invalid data. Integer expected but received " + data);
+            }
+        }
+
+        // check if the foreign key data is present in the foreign table
+        if (valid && columnMeta.containsKey("fk") && columnMeta.get("fk").equals("true")) {
+            String fkTableName = columnMeta.get("fkTableName");
+            String fkFieldName = columnMeta.get("fkFieldName");
+            if (!validateDataInForeignKeyTable(data, fkTableName, fkFieldName, allRows)) {
+                valid = false;
+                System.out.println("Invalid data. Referenced value in foreign key does not exist.");
             }
         }
 

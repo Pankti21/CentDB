@@ -1,7 +1,8 @@
 package LoginRegister;
 
 public class Login {
-    void login(){
-        System.out.println("In login");
+    String login(){
+    	// return username if sucessful;
+    	return "test";
     }
 }
