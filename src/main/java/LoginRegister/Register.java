@@ -1,9 +1,10 @@
 package LoginRegister;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class Register {
@@ -17,11 +18,28 @@ public class Register {
     public Register(){
     }
 
-    String getUserIDFromUser(){
-        System.out.println("Enter a User ID:");
+    String getUserIDFromUser() throws NoSuchAlgorithmException {
+        System.out.print("Enter a User ID:");
         Scanner sc = new Scanner(System.in);
         userID=sc.nextLine();
         return userID;
+    }
+
+    String generateHash(String input) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = messageDigest.digest(input.getBytes(StandardCharsets.UTF_8));
+
+        StringBuilder encryptedInput = new StringBuilder();
+
+        for (byte b:bytes){
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1){
+                encryptedInput.append('0').append(hex);
+            } else {
+                encryptedInput.append(hex);
+            }
+        }
+        return encryptedInput.toString();
     }
 
     void getSecurityAnswers(){
@@ -32,8 +50,8 @@ public class Register {
         SA2=sc.nextLine();
     }
 
-    String getPasswordFromUser(){
-        System.out.println("Enter a password:");
+    String getPasswordFromUser() throws NoSuchAlgorithmException {
+        System.out.print("Enter a password:");
         Scanner sc = new Scanner(System.in);
         password=sc.nextLine();
         return password;
@@ -47,37 +65,63 @@ public class Register {
         return true;
     }
 
-    boolean checkUserIdExists(){
-        //if it exists in file
-        //System.out.println("User ID already exists!");
+    boolean checkUserIdExists() throws IOException, NoSuchAlgorithmException {
+        BufferedReader reader = new BufferedReader(new FileReader(Path.of("UserProfile.txt").toString()));
+        String line = reader.readLine();
+        while (line != null) {
+            String[] credentials=line.split("[|]");
+            if((credentials[0]).equals(generateHash(userID))){
+                System.out.println("User already exists.");
+                return true;
+            }
+            line=reader.readLine();
+        }
         return false;
     }
 
     void writeToFile(String content) throws IOException {
         try {
             File UserProfileLog = new File("UserProfile.txt");
-            BufferedWriter writer=new BufferedWriter(new FileWriter(UserProfileLog));
-            writer.write(content);
-            writer.flush();
-            writer.close();
+            FileWriter fileWriter=new FileWriter(UserProfileLog,true);
+            PrintWriter printWriter=new PrintWriter(fileWriter);
+            printWriter.println(content);
+            printWriter.flush();
+            printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    void register() throws IOException {
-        System.out.println("In register");
+    void register() throws IOException, NoSuchAlgorithmException {
         userID = getUserIDFromUser();
         while (checkUserIdExists()){
-            getUserIDFromUser();
+            System.out.println("1. Continue to login");
+            System.out.println("2. Try a different username");
+            System.out.println("Enter a valid choice: ");
+            Scanner sc=new Scanner(System.in);
+            int choice=sc.nextInt();
+            switch (choice){
+                case 1:
+                    Login login=new Login();
+                    login.login();
+                    break;
+                case 2:
+                    getUserIDFromUser();
+                default:
+                    System.out.println("Invalid choice.");
+            }
         }
         password=getPasswordFromUser();
         while (!checkValidPassword(password)){
             getPasswordFromUser();
         }
         getSecurityAnswers();
-        //Add userID password and security answers to file
-        writeToFile(userID+"//"+password+"//"+SA1+"//"+SA2);
+        String hashedUserId=generateHash(userID);
+        String hashedPassword=generateHash(password);
+        //Add hashed userID, hashed password and security answers to file
+        writeToFile(hashedUserId+"|"+hashedPassword+"|"+SA1+"|"+SA2);
+        System.out.println("Registration Successful.");
+        System.out.println("Please log in.");
     }
 
 }
