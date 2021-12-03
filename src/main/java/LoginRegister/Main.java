@@ -12,6 +12,7 @@ public class Main {
         int choice;
         System.out.println("1. Register");
         System.out.println("2. Login");
+        System.out.println("3. Forgot Password");
         Scanner sc=new Scanner(System.in);
         choice=sc.nextInt();
         switch (choice){
@@ -25,6 +26,9 @@ public class Main {
                     accessCentDb();
                 }
                 break;
+            case 3:
+                Recovery recovery=new Recovery();
+                recovery.forgotPassword();
             default:
                 System.out.println("Please enter a valid choice");
         }
