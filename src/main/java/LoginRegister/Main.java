@@ -1,5 +1,6 @@
 package LoginRegister;
 
+import ERD.ERD;
 import QueryProcessor.QueryProcessor;
 
 import java.io.*;
@@ -11,7 +12,6 @@ public class Main {
         int choice;
         System.out.println("1. Register");
         System.out.println("2. Login");
-        System.out.print("Enter a valid choice:");
         Scanner sc=new Scanner(System.in);
         choice=sc.nextInt();
         switch (choice){
@@ -41,6 +41,9 @@ public class Main {
                 QueryProcessor queryProcessor=new QueryProcessor();
                 queryProcessor.handleQuery();
                 break;
+            case 4:
+                 ERD erd=new ERD();
+                 erd.main();
             default:
                 System.out.println("Please enter a valid choice");
         }
