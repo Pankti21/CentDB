@@ -34,6 +34,7 @@ public class Main {
         int choice;
         Scanner sc=new Scanner(System.in);
         System.out.println("1. Write Queries");
+        System.out.println("4. Generate ERD");
         System.out.println("Enter a valid choice:");
         choice=sc.nextInt();
         switch (choice){
