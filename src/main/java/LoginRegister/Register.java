@@ -1,6 +1,7 @@
 package LoginRegister;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,12 +26,21 @@ public class Register {
         return userID;
     }
 
-    private String generateHash(String input) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(input.getBytes());
-        byte[] digest = md.digest();
-        String hash = DatatypeConverter.printHexBinary(digest).toUpperCase();
-        return hash;
+    String generateHash(String input) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = messageDigest.digest(input.getBytes(StandardCharsets.UTF_8));
+
+        StringBuilder encryptedInput = new StringBuilder();
+
+        for (byte b:bytes){
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1){
+                encryptedInput.append('0').append(hex);
+            } else {
+                encryptedInput.append(hex);
+            }
+        }
+        return encryptedInput.toString();
     }
 
     void getSecurityAnswers(){
@@ -62,7 +72,7 @@ public class Register {
         while (line != null) {
             String[] credentials=line.split("[|]");
             System.out.println(generateHash(credentials[0]));
-            if(generateHash(credentials[0]).equals(userID)){
+            if((credentials[0]).equals(generateHash(userID))){
                 System.out.println("User already exists.");
                 return true;
             }
@@ -89,7 +99,7 @@ public class Register {
         userID = getUserIDFromUser();
         while (checkUserIdExists()){
             System.out.println("1. Continue to login");
-            System.out.println("1. Try a different username");
+            System.out.println("2. Try a different username");
             System.out.println("Enter a valid choice: ");
             Scanner sc=new Scanner(System.in);
             int choice=sc.nextInt();

@@ -1,7 +1,42 @@
 package LoginRegister;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
+
 public class Login {
-    void login(){
+    String userID;
+    String password;
+    String hashedUserId;
+    String hashedPassword;
+    Boolean isAuthenticated;
+
+    void login() throws NoSuchAlgorithmException, IOException {
         System.out.println("In login");
+        Register register=new Register();
+        userID=register.getUserIDFromUser();
+        password=register.getPasswordFromUser();
+        hashedUserId=register.generateHash(userID);
+        hashedPassword=register.generateHash(password);
+        if(checkIfUserExists()){
+            System.out.println("Welcome to CentDB!\n");
+            isAuthenticated=true;
+        }
     }
+
+    private boolean checkIfUserExists() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(Path.of("UserProfile.txt").toString()));
+        String line = reader.readLine();
+        while (line != null) {
+            String[] credentials=line.split("[|]");
+            if(credentials[0].equals(hashedUserId) && credentials[1].equals(hashedPassword)){
+                return true;
+            }
+            line=reader.readLine();
+        }
+        return false;
+    }
+
 }
