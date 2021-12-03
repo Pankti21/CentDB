@@ -11,7 +11,7 @@ public class Main {
         int choice;
         System.out.println("1. Register");
         System.out.println("2. Login");
-        System.out.println("Enter a valid choice:");
+        System.out.print("Enter a valid choice:");
         Scanner sc=new Scanner(System.in);
         choice=sc.nextInt();
         switch (choice){
@@ -24,10 +24,6 @@ public class Main {
                 if(login.isAuthenticated){
                     accessCentDb();
                 }
-                break;
-            case 3:
-                QueryProcessor queryProcessor=new QueryProcessor();
-                queryProcessor.handleQuery();
                 break;
             default:
                 System.out.println("Please enter a valid choice");

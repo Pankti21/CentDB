@@ -14,7 +14,6 @@ public class Login {
     Boolean isAuthenticated=false;
 
     void login() throws NoSuchAlgorithmException, IOException {
-        System.out.println("In login");
         Register register=new Register();
         userID=register.getUserIDFromUser();
         password=register.getPasswordFromUser();

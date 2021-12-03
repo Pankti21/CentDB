@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
-import javax.xml.bind.DatatypeConverter;
 
 public class Register {
     String userID;
@@ -20,7 +19,7 @@ public class Register {
     }
 
     String getUserIDFromUser() throws NoSuchAlgorithmException {
-        System.out.println("Enter a User ID:");
+        System.out.print("Enter a User ID:");
         Scanner sc = new Scanner(System.in);
         userID=sc.nextLine();
         return userID;
@@ -52,7 +51,7 @@ public class Register {
     }
 
     String getPasswordFromUser() throws NoSuchAlgorithmException {
-        System.out.println("Enter a password:");
+        System.out.print("Enter a password:");
         Scanner sc = new Scanner(System.in);
         password=sc.nextLine();
         return password;
@@ -71,7 +70,6 @@ public class Register {
         String line = reader.readLine();
         while (line != null) {
             String[] credentials=line.split("[|]");
-            System.out.println(generateHash(credentials[0]));
             if((credentials[0]).equals(generateHash(userID))){
                 System.out.println("User already exists.");
                 return true;
@@ -95,7 +93,6 @@ public class Register {
     }
 
     void register() throws IOException, NoSuchAlgorithmException {
-        System.out.println("In register");
         userID = getUserIDFromUser();
         while (checkUserIdExists()){
             System.out.println("1. Continue to login");
@@ -123,6 +120,8 @@ public class Register {
         String hashedPassword=generateHash(password);
         //Add hashed userID, hashed password and security answers to file
         writeToFile(hashedUserId+"|"+hashedPassword+"|"+SA1+"|"+SA2);
+        System.out.println("Registration Successful.");
+        System.out.println("Please log in.");
     }
 
 }
