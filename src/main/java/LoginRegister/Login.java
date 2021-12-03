@@ -11,7 +11,7 @@ public class Login {
     String password;
     String hashedUserId;
     String hashedPassword;
-    Boolean isAuthenticated;
+    Boolean isAuthenticated=false;
 
     void login() throws NoSuchAlgorithmException, IOException {
         System.out.println("In login");
@@ -21,8 +21,11 @@ public class Login {
         hashedUserId=register.generateHash(userID);
         hashedPassword=register.generateHash(password);
         if(checkIfUserExists()){
-            System.out.println("Welcome to CentDB!\n");
+            System.out.println("\nWelcome to CentDB!");
             isAuthenticated=true;
+        }
+        else{
+            System.out.println("You need to register first.");
         }
     }
 
