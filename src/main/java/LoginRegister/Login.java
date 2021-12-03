@@ -25,6 +25,7 @@ public class Login {
         }
         else{
             System.out.println("You need to register first.");
+            register.register();
         }
     }
 

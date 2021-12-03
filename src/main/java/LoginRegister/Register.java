@@ -93,23 +93,11 @@ public class Register {
     }
 
     void register() throws IOException, NoSuchAlgorithmException {
+        System.out.println("=======REGISTRATION====");
         userID = getUserIDFromUser();
         while (checkUserIdExists()){
-            System.out.println("1. Continue to login");
-            System.out.println("2. Try a different username");
-            System.out.println("Enter a valid choice: ");
-            Scanner sc=new Scanner(System.in);
-            int choice=sc.nextInt();
-            switch (choice){
-                case 1:
-                    Login login=new Login();
-                    login.login();
-                    break;
-                case 2:
-                    getUserIDFromUser();
-                default:
-                    System.out.println("Invalid choice.");
-            }
+            System.out.println("Try a different username.");
+            getUserIDFromUser();
         }
         password=getPasswordFromUser();
         while (!checkValidPassword(password)){
@@ -122,6 +110,12 @@ public class Register {
         writeToFile(hashedUserId+"|"+hashedPassword+"|"+SA1+"|"+SA2);
         System.out.println("Registration Successful.");
         System.out.println("Please log in.");
+        Login login=new Login();
+        login.login();
+        if(login.isAuthenticated){
+            Main main=new Main();
+            main.accessCentDb();
+        }
     }
 
 }

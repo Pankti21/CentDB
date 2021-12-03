@@ -30,7 +30,7 @@ public class Main {
         }
     }
 
-    private static void accessCentDb() throws IOException {
+    public static void accessCentDb() throws IOException {
         int choice;
         Scanner sc=new Scanner(System.in);
         System.out.println("1. Write Queries");
