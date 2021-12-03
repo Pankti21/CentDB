@@ -24,14 +24,22 @@ public class Recovery {
 
         BufferedReader reader = new BufferedReader(new FileReader(Path.of("UserProfile.txt").toString()));
         String line = reader.readLine();
+        Boolean userFound=false;
         while (line != null) {
             oldUserInfo=line;
             String[] credentials=line.split("[|]");
             if(credentials[0].equals(hashedUserId) && credentials[2].equals(SA1) && credentials[3].equals(SA2)){
+                userFound=true;
                 String newPassword=getNewPassword();
                 setNewPassword(newPassword);
+                Login login=new Login();
+                login.login();
             }
             line=reader.readLine();
+        }
+        if (!userFound){
+            System.out.println("Incorrect User ID or security answers.\nPlease try again!");
+            forgotPassword();
         }
     }
 
@@ -45,17 +53,13 @@ public class Recovery {
             line=reader.readLine();
         }
         String userProfile=buffer.toString();
-        System.out.println(newUserInfo+"\n"+oldUserInfo);
         userProfile=userProfile.replace(oldUserInfo,newUserInfo);
-        System.out.println(userProfile);
         File file=new File("UserProfile.txt");
         FileWriter fileWriter=new FileWriter(file);
         fileWriter.append(userProfile);
         fileWriter.flush();
         fileWriter.close();
         System.out.println("Password successfully updated.");
-        Login login=new Login();
-        login.login();
     }
 
     private String getNewPassword() throws NoSuchAlgorithmException {

@@ -14,6 +14,7 @@ public class Login {
     Boolean isAuthenticated=false;
 
     void login() throws NoSuchAlgorithmException, IOException {
+        System.out.println("======= LOGIN ========");
         Register register=new Register();
         userID=register.getUserIDFromUser();
         password=register.getPasswordFromUser();
@@ -22,6 +23,7 @@ public class Login {
         if(checkIfUserExists()){
             System.out.println("\nWelcome to CentDB!");
             isAuthenticated=true;
+            Main.accessCentDb();
         }
         else{
             System.out.println("You need to register first.");
