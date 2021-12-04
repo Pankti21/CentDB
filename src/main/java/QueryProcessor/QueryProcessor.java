@@ -562,6 +562,7 @@ public class QueryProcessor {
             }
 
             String lastCharacter = currentInput.substring(currentInput.length() - 1);
+            //For multiline query input
             if (!lastCharacter.equals(";")) {
                 input = input.concat(" " + currentInput);
                 continue;
