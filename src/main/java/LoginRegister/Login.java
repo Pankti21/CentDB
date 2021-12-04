@@ -23,7 +23,6 @@ public class Login {
         if(checkIfUserExists()){
             System.out.println("\nWelcome to CentDB!");
             isAuthenticated=true;
-            Main.accessCentDb();
         }
         else{
             System.out.println("You need to register first.");

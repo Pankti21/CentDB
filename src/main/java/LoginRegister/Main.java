@@ -2,6 +2,7 @@ package LoginRegister;
 
 import ERD.ERD;
 import QueryProcessor.QueryProcessor;
+import SqlDump.SqlDump;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
@@ -39,6 +40,7 @@ public class Main {
         Scanner sc=new Scanner(System.in);
         System.out.println("1. Write Queries");
         System.out.println("4. Generate ERD");
+        System.out.println("5. Generate SQL Dump");
         System.out.println("Enter a valid choice:");
         choice=sc.nextInt();
         switch (choice){
@@ -49,6 +51,12 @@ public class Main {
             case 4:
                  ERD erd=new ERD();
                  erd.main();
+                 break;
+            case 5:
+                SqlDump sqlDump = new SqlDump();
+                sqlDump.mainGenerator();
+                break;
+
             default:
                 System.out.println("Please enter a valid choice");
         }
