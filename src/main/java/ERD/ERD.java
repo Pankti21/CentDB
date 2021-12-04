@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class ERD {
 
-    public void main() throws FileNotFoundException {
+    public void main() throws IOException {
         int columnCount=0;
         int numberOfColumns=0;
         String table=null;
@@ -36,12 +36,12 @@ public class ERD {
 
                     if (data != null) {
                         String nextline[] = data.split("[|]");
-                        if(!Objects.equals(nextline[0], table)){
-                            numberOfColumns=columnCount;
-                            System.out.println("table:"+table+"columns:"+numberOfColumns);
-                            display(currentDatabase,table,numberOfColumns);
+                        if(!Objects.equals(nextline[0], table)) {
+                            numberOfColumns = columnCount;
+                            System.out.println("table:" + table + "columns:" + numberOfColumns);
+                            display(currentDatabase, table, numberOfColumns);
                             System.out.println("display called\n");
-                            columnCount=0;
+                            columnCount = 0;
                         }
                         line[0] = nextline[0];
                     }
@@ -54,9 +54,11 @@ public class ERD {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        getRelationships(currentDatabase);
+        System.out.println("ERD successfully generated.");
     }
 
-    private void display(String currentDatabase,String table, int numberOfColumns) {
+    private void display(String currentDatabase,String table, int numberOfColumns) throws IOException {
         String path = Path.of(currentDatabase, "meta.txt").toString();
         try {
             FileReader fileReader=new FileReader(path);
@@ -66,7 +68,7 @@ public class ERD {
             File file=new File("ERD.txt");
             FileWriter fileWriter=new FileWriter(file,true);
 
-            fileWriter.write("\nTABLE:"+table);
+            fileWriter.write("\n\nTABLE:  \t"+table);
             fileWriter.write("\nCOLUMNS:");
             List<String> columns=new ArrayList<>();
             while(data!=null) {
@@ -79,7 +81,7 @@ public class ERD {
 
             }
             for(String column:columns){
-                fileWriter.write(column+",");
+                fileWriter.write("\t"+column+",");
             }
 
             fileWriter.flush();
@@ -87,7 +89,27 @@ public class ERD {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private void getRelationships(String currentDatabase) throws IOException {
+        String path = Path.of(currentDatabase, "meta.txt").toString();
+        FileReader fileReader=new FileReader(path);
+        BufferedReader bufferedReader=new BufferedReader(fileReader);
+        String data=bufferedReader.readLine();
+
+        File file=new File("ERD.txt");
+        FileWriter fileWriter=new FileWriter(file,true);
+
+        fileWriter.write("\n\n=======Relationships=======");
+        while(data!=null) {
+            String line[]=data.split("[|]");
+            if(line.length>3 && line[3].equals("fk")){
+                fileWriter.write("\nTable '"+line[4]+"' has one to many relationship with '"+line[0]+"'.");
+            }
+            data=bufferedReader.readLine();
+        }
+        fileWriter.flush();
+        fileWriter.close();
     }
 }
 
