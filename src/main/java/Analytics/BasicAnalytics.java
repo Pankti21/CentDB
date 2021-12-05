@@ -50,6 +50,7 @@ public class BasicAnalytics {
 				}
 			}
 		}
+
 		if(validCount+invalidCount>0) {
 			String analysisString = "user %s submitted %s queries (%s valid | %s invalid) on %s\n".formatted(currentUser,validCount+invalidCount,validCount,invalidCount,database);
 			System.out.println(analysisString);
@@ -84,7 +85,6 @@ public class BasicAnalytics {
 			System.out.println(outputString);
 			Files.write(file.toPath(), outputString.getBytes(), StandardOpenOption.APPEND);
 		}
-
 	}
 	public static void main(String[] args) throws IOException {
 		BasicAnalytics analytics = new BasicAnalytics();
