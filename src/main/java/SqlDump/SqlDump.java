@@ -1,7 +1,5 @@
 package SqlDump;
 
-import QueryProcessor.QueryProcessor;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,7 +50,7 @@ public class SqlDump {
 
     private boolean saveDump( String databaseName) throws IOException
     {
-        QueryProcessor queryProcessor=new QueryProcessor();
+        DumpQueryProcessor queryProcessor=new DumpQueryProcessor();
         File allTables = new File(databaseName);
         File[] dbTables = allTables.listFiles();
 
