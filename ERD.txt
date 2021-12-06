@@ -1,0 +1,14 @@
+
+
+TABLE:  	courses
+COLUMNS:	id,	name,
+
+TABLE:  	students
+COLUMNS:	id,	fname,	lname,	age,
+
+TABLE:  	enrollment
+COLUMNS:	id,	student_id,	course_id,
+
+=======Relationships=======
+Table 'students' has one to many relationship with 'enrollment'.
+Table 'courses' has one to many relationship with 'enrollment'.
