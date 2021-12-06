@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class ERD {
 
+    Boolean pk=false;
+
     public void main() throws IOException {
         int columnCount=0;
         int numberOfColumns=0;
@@ -31,16 +33,13 @@ public class ERD {
 
                 if(Objects.equals(line[0], table)) {
                     columnCount += 1;
-                    System.out.println(table+" "+columnCount);
                     data = bufferedReader.readLine();
 
                     if (data != null) {
                         String nextline[] = data.split("[|]");
                         if(!Objects.equals(nextline[0], table)) {
                             numberOfColumns = columnCount;
-                            System.out.println("table:" + table + "columns:" + numberOfColumns);
                             display(currentDatabase, table, numberOfColumns);
-                            System.out.println("display called\n");
                             columnCount = 0;
                         }
                         line[0] = nextline[0];
@@ -49,7 +48,6 @@ public class ERD {
                 }
             }
             numberOfColumns=columnCount;
-            System.out.println("table:"+table+"columns:"+numberOfColumns);
             display(currentDatabase,table,numberOfColumns);
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,7 +73,12 @@ public class ERD {
 
                 String line[]=data.split("[|]");
                 if(Objects.equals(line[0], table)) {
-                    columns.add(line[1]);
+                    if((line.length>3) && Objects.equals(line[3], "pk")){
+                        columns.add(line[1]+"(pk)");
+                    }
+                    else {
+                        columns.add(line[1]);
+                    }
                 }
                 data=bufferedReader.readLine();
 

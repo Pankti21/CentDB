@@ -45,6 +45,7 @@ public class QueryProcessor {
     public void createDatabase (String dbName) throws IOException {
         Files.createDirectory(Path.of(dbName));
         if (QueryValidator.checkIfDBExists(dbName)) {
+            //meta file creation
             Files.createFile(Path.of(dbName, "meta.txt"));
             if (QueryValidator.checkIfDbHasMeta(dbName)) {
                 System.out.printf("Database %s created successfully.\n", dbName);
