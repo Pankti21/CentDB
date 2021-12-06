@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class ERD {
 
+    Boolean pk=false;
+
     public void main() throws IOException {
         int columnCount=0;
         int numberOfColumns=0;
@@ -75,7 +77,12 @@ public class ERD {
 
                 String line[]=data.split("[|]");
                 if(Objects.equals(line[0], table)) {
-                    columns.add(line[1]);
+                    if((line.length>3) && Objects.equals(line[3], "pk")){
+                        columns.add(line[1]+"(pk)");
+                    }
+                    else {
+                        columns.add(line[1]);
+                    }
                 }
                 data=bufferedReader.readLine();
 

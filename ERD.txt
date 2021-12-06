@@ -1,13 +1,13 @@
 
 
 TABLE:  	courses
-COLUMNS:	id,	name,
+COLUMNS:	id(pk),	name,
 
 TABLE:  	students
-COLUMNS:	id,	fname,	lname,	age,
+COLUMNS:	id(pk),	fname,	lname,	age,
 
 TABLE:  	enrollment
-COLUMNS:	id,	student_id,	course_id,
+COLUMNS:	id(pk),	student_id,	course_id,
 
 =======Relationships=======
 Table 'students' has one to many relationship with 'enrollment'.
