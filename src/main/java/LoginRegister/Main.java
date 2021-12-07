@@ -2,6 +2,7 @@ package LoginRegister;
 
 import ERD.ERD;
 import QueryProcessor.QueryProcessor;
+import SqlDump.SqlDump;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
@@ -38,12 +39,14 @@ public class Main {
     public static void accessCentDb() throws IOException {
         int choice;
         while (true){
+
             Scanner sc=new Scanner(System.in);
             System.out.println("1. Write Queries");
             System.out.println("2. Export");
             System.out.println("3. Data Model");
             System.out.println("4. Analytics");
             System.out.println("5. Exit");
+
             System.out.println("Enter a valid choice:");
             choice=sc.nextInt();
             switch (choice){
@@ -51,14 +54,22 @@ public class Main {
                     QueryProcessor queryProcessor=new QueryProcessor();
                     queryProcessor.handleQuery();
                     break;
+
+				case 2:
+				    SqlDump sqlDump = new SqlDump();
+                    sqlDump.mainGenerator();
+                    break;
+
                 case 3:
                     ERD erd=new ERD();
                     erd.main();
                     break;
                 case 5:
                     System.exit(1);
+
                 default:
                     System.out.println("Please enter a valid choice");
+
             }
         }
     }

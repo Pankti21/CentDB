@@ -77,6 +77,7 @@ public class ERD {
                         columns.add(line[1]+"(pk)");
                     }
                     else {
+
                         columns.add(line[1]);
                     }
                 }

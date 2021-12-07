@@ -623,4 +623,5 @@ public class QueryProcessor {
             input = "";
         }
     }
+
 }
