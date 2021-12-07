@@ -71,7 +71,6 @@ public class QueryValidator {
                 if (!(col.containsKey("pk") && col.get("pk").equals("true"))) continue;
 
                 hasPkField = true;
-
                 // checks if the data types of both the fields match
                 if (!col.get("type").equals(fieldType)) {
                     System.out.println("Invalid query. Data types of foreign key and referenced table column do not match.");

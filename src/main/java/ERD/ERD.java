@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class ERD {
 
-    Boolean pk=false;
 
     public void main() throws IOException {
         int columnCount=0;

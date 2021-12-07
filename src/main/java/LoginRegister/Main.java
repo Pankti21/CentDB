@@ -8,8 +8,10 @@ import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
+import Analytics.BasicAnalytics;
+
 public class Main {
-    public static void main(String args[]) throws IOException, NoSuchAlgorithmException {
+     public static void main(String args[]) throws IOException, NoSuchAlgorithmException {
         int choice;
         System.out.println("1. Register");
         System.out.println("2. Login");
@@ -59,11 +61,13 @@ public class Main {
 				    SqlDump sqlDump = new SqlDump();
                     sqlDump.mainGenerator();
                     break;
-
                 case 3:
                     ERD erd=new ERD();
                     erd.main();
                     break;
+                case 4:
+                	BasicAnalytics.main(new String[] {Login.getCurrentUser()});
+                	break;
                 case 5:
                     System.exit(1);
 

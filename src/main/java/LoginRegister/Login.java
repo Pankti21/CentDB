@@ -7,7 +7,8 @@ import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 
 public class Login {
-    String userID;
+
+	static String userID;
     String password;
     String hashedUserId;
     String hashedPassword;
@@ -29,7 +30,10 @@ public class Login {
             register.register();
         }
     }
-
+    
+    public static String getCurrentUser() {
+    	return userID;
+    }
     private boolean checkIfUserExists() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(Path.of("UserProfile.txt").toString()));
         String line = reader.readLine();
