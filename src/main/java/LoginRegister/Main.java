@@ -14,6 +14,7 @@ public class Main {
         System.out.println("1. Register");
         System.out.println("2. Login");
         System.out.println("3. Forgot Password");
+        System.out.print("Please enter a valid choice:");
         Scanner sc=new Scanner(System.in);
         choice=sc.nextInt();
         switch (choice){
@@ -37,28 +38,34 @@ public class Main {
 
     public static void accessCentDb() throws IOException {
         int choice;
+        while (true){
         Scanner sc=new Scanner(System.in);
         System.out.println("1. Write Queries");
-        System.out.println("4. Generate ERD");
-        System.out.println("5. Generate SQL Dump");
+            System.out.println("2. Export");
+            System.out.println("3. Data Model");
+            System.out.println("4. Analytics");
+            System.out.println("5. Exit");
         System.out.println("Enter a valid choice:");
         choice=sc.nextInt();
         switch (choice){
-            case 1:
-                QueryProcessor queryProcessor=new QueryProcessor();
-                queryProcessor.handleQuery();
-                break;
-            case 4:
-                 ERD erd=new ERD();
-                 erd.main();
-                 break;
-            case 5:
-                SqlDump sqlDump = new SqlDump();
-                sqlDump.mainGenerator();
-                break;
+                case 1:
+                    QueryProcessor queryProcessor=new QueryProcessor();
+                    queryProcessor.handleQuery();
+                    break;
+				case 2:
+				    SqlDump sqlDump = new SqlDump();
+                    sqlDump.mainGenerator();
+                    break;
+                case 3:
+                    ERD erd=new ERD();
+                    erd.main();
+                    break;
+                case 5:
+                    System.exit(1);
 
             default:
                 System.out.println("Please enter a valid choice");
+            }
         }
     }
 }
