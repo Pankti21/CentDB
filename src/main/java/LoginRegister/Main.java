@@ -39,23 +39,27 @@ public class Main {
     public static void accessCentDb() throws IOException {
         int choice;
         while (true){
-        Scanner sc=new Scanner(System.in);
-        System.out.println("1. Write Queries");
+
+            Scanner sc=new Scanner(System.in);
+            System.out.println("1. Write Queries");
             System.out.println("2. Export");
             System.out.println("3. Data Model");
             System.out.println("4. Analytics");
             System.out.println("5. Exit");
-        System.out.println("Enter a valid choice:");
-        choice=sc.nextInt();
-        switch (choice){
+
+            System.out.println("Enter a valid choice:");
+            choice=sc.nextInt();
+            switch (choice){
                 case 1:
                     QueryProcessor queryProcessor=new QueryProcessor();
                     queryProcessor.handleQuery();
                     break;
+
 				case 2:
 				    SqlDump sqlDump = new SqlDump();
                     sqlDump.mainGenerator();
                     break;
+
                 case 3:
                     ERD erd=new ERD();
                     erd.main();
@@ -63,8 +67,9 @@ public class Main {
                 case 5:
                     System.exit(1);
 
-            default:
-                System.out.println("Please enter a valid choice");
+                default:
+                    System.out.println("Please enter a valid choice");
+
             }
         }
     }
