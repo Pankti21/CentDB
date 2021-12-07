@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import Logger.LogType;
 import Logger.Logger;
 import Logger.MainLogger;
+import LoginRegister.Login;
 
 public class QueryProcessor {
     // path of global data dictionary
@@ -51,6 +52,7 @@ public class QueryProcessor {
     public void createDatabase (String dbName) throws IOException {
         Files.createDirectory(Path.of(dbName));
         if (QueryValidator.checkIfDBExists(dbName)) {
+            //meta file creation
             Files.createFile(Path.of(dbName, "meta.txt"));
             if (QueryValidator.checkIfDbHasMeta(dbName)) {
             	logger.setChangeMessage(Logger.databaseCreationChangeMessage.formatted(dbName));
@@ -498,13 +500,13 @@ public class QueryProcessor {
         }
 
         // add the validated data to the list of rows for this table
-        Integer previousSize = tableRows.get(tableName).size();
         List<HashMap<String, String>> newTableData = tableRows.get(tableName) != null ? new ArrayList<>(tableRows.get(tableName)) : new ArrayList<>();
         newTableData.add(newRowData);
         tableRows.put(tableName, newTableData);
 
         persistTableDataToDisk(tableName);
         System.out.println("Record added successfully.");
+        Integer previousSize = tableRows.get(tableName).size();
         logger.setTableName(tableName);
         logger.setChangeMessage("%s row(s) added ".formatted(tableRows.get(tableName).size()-previousSize));
     }
@@ -554,8 +556,7 @@ public class QueryProcessor {
         String input = "";
         logger.setActiveDatabase(currentDatabase);
         logger.setCurrentTimeMillis(System.currentTimeMillis());
-        logger.setUserName("test");
-        
+        logger.setUserName(Login.getCurrentUser());
         // infinite input loop
         
         while (true) {
@@ -588,6 +589,7 @@ public class QueryProcessor {
             }
 
             String lastCharacter = currentInput.substring(currentInput.length() - 1);
+            //For multiline query input
             if (!lastCharacter.equals(";")) {
                 input = input.concat(" " + currentInput);
                 continue;

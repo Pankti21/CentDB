@@ -40,6 +40,10 @@ public class BasicAnalytics {
 		int invalidCount = 0;
 		logReader = new LogReader();
 		List<MainLogger> logs = logReader.getLogger();
+		if(logs.isEmpty()) {
+			System.out.println("No operations performed by the current user");
+			return "0";
+		}
 		for(MainLogger log:logs) {
 			if(log.getActiveDatabase()==null || log.getUserName() == null) continue;
 			if(log.getActiveDatabase().equals(database) && log.getUserName().equals(currentUser)) {
@@ -61,10 +65,15 @@ public class BasicAnalytics {
 	}
 	
 	public void getUpdateOperations(String currentUser, String database) throws IOException {
+		logReader = new LogReader();
 		File file = new File(analysis);
 		List<MainLogger> logs = logReader.getLogger();
 		List<String> output = new ArrayList<>();
 		Map<String,Integer> countMap = new HashMap<String,Integer>();
+		if(logs.isEmpty()) {
+			System.out.println("No operations performed by the current user");
+			return;
+		}
 		for(MainLogger log:logs) {
 			if(log.getLogType().equals(LogType.UPDATE) && log.getActiveDatabase().equals(database) && log.getUserName().equals(currentUser)) {
 				if(countMap.containsKey(log.getTableName())) {
