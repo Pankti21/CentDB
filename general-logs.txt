@@ -1,0 +1,38 @@
+user|utsava|query|create database dbtest1;|type|CREATE|start_time|1638919015498ms|execution_time|17270ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|use dbtest1;|type|USE|start_time|1638919015498ms|execution_time|0ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|create table Student (id int primary key, name varchar(255) );|type|CREATE|start_time|1638919015498ms|execution_time|77059ms
+user|utsava|query|create database dbtest1;|type|CREATE|start_time|1638919148757ms|execution_time|6270ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|use dbtest1;|type|USE|start_time|1638919148757ms|execution_time|0ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|create table Dept (did int primary key, dname varchar(64));|type|CREATE|start_time|1638919148757ms|execution_time|53244ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|create table Emp (eid int primary key, ename varchar(64), did int foreign key Dept(did));|type|CREATE|start_time|1638919148757ms|execution_time|121726ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (1, cs);|type|INSERT|start_time|1638919148757ms|execution_time|6ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (2, mech);|type|INSERT|start_time|1638919148757ms|execution_time|2ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (3, civil);|type|INSERT|start_time|1638919148757ms|execution_time|4ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (100, yash, 2);|type|INSERT|start_time|1638919148757ms|execution_time|2ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (101, yash, 2);|type|INSERT|start_time|1638919148757ms|execution_time|2ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (102, sachin, 3);|type|INSERT|start_time|1638919148757ms|execution_time|2ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (103, nikhil, 2);|type|INSERT|start_time|1638919148757ms|execution_time|1ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|delete from Emp where eid = 100;|type|INVALID|start_time|1638919148757ms|execution_time|2ms
+user|utsava|database|dbtest1|Total Tables|2|Total Records|7|query|use dbtest1;|type|USE|start_time|1638919702594ms|execution_time|5ms
+user|utsava|database|dbtest1|Total Tables|1|Total Records|3|query|use dbtest1;|type|USE|start_time|1638920813929ms|execution_time|4ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|use dbtest1;|type|USE|start_time|1638921259546ms|execution_time|0ms
+user|utsava|query|create database dbtest1;|type|CREATE|start_time|1638921501049ms|execution_time|7287ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|use dbtest1;|type|USE|start_time|1638921501049ms|execution_time|1ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|create table Dept (did int primary key, dname varchar);|type|CREATE|start_time|1638921501049ms|execution_time|63597ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|create table Emp (eid int primary key, ename varchar, did int foreign key Dept(did));|type|CREATE|start_time|1638921501049ms|execution_time|95948ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (1, cs);|type|INSERT|start_time|1638921501049ms|execution_time|4ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (2, mech);|type|INSERT|start_time|1638921501049ms|execution_time|1ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (3, civil);|type|INSERT|start_time|1638921501049ms|execution_time|3ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (100, yash, 1);|type|INSERT|start_time|1638921501049ms|execution_time|2ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (101, uv, 2);|type|INSERT|start_time|1638921501049ms|execution_time|2ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (103, raj, 2);|type|INSERT|start_time|1638921501049ms|execution_time|1ms
+user|utsava|query|create database dbtest1;|type|CREATE|start_time|1638922449050ms|execution_time|6914ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|use dbtest1;|type|USE|start_time|1638922449050ms|execution_time|0ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|create table Dept (did int primary key, dname varchar(64));|type|CREATE|start_time|1638922449050ms|execution_time|63399ms
+user|utsava|database|dbtest1|Total Tables|0|Total Records|0|query|create table Emp (eid int primary key, ename varchar(64), did int foreign key Dept(did));|type|CREATE|start_time|1638922449050ms|execution_time|120892ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (1, cs);|type|INSERT|start_time|1638922449050ms|execution_time|3ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (2, civil);|type|INSERT|start_time|1638922449050ms|execution_time|1ms
+user|utsava|database|dbtest1|table|Dept|Total Tables|0|Total Records|0|query|insert into Dept values (3, mech);|type|INSERT|start_time|1638922449050ms|execution_time|4ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (100, yash, 1);|type|INSERT|start_time|1638922449050ms|execution_time|1ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (101, uv, 2);|type|INSERT|start_time|1638922449050ms|execution_time|2ms
+user|utsava|database|dbtest1|table|Emp|Total Tables|0|Total Records|0|query|insert into Emp values (102, sachin, 3);|type|INSERT|start_time|1638922449050ms|execution_time|2ms
