@@ -1,0 +1,357 @@
+database||message|Database mxy; created sucessfully |type|CREATE
+database||message|Database mdfg; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database my; created sucessfully |type|CREATE
+database||message|Database mdg; created sucessfully |type|CREATE
+database||message|Database my; created sucessfully |type|CREATE
+database||message|Database mdg; created sucessfully |type|CREATE
+database||message|Database m43y; created sucessfully |type|CREATE
+database||message|Database md542g; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database msdgy; created sucessfully |type|CREATE
+database||message|Database msrhrdg; created sucessfully |type|CREATE
+database||message|Database mdgs43y; created sucessfully |type|CREATE
+database||message|Database mdfg542g; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database msdshgy; created sucessfully |type|CREATE
+database||message|Database msrshhrdg; created sucessfully |type|CREATE
+database||message|Database mdgdds43y; created sucessfully |type|CREATE
+database||message|Database mdfg5dg42g; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database msdshggy; created sucessfully |type|CREATE
+database||message|Database msrshddhrdg; created sucessfully |type|CREATE
+database||message|Database t1db; created sucessfully |type|CREATE
+database||message|Database t1db created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database t2db; created sucessfully |type|CREATE
+database||message|Database t1db; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database t2db; created sucessfully |type|CREATE
+database||message|Database t1db; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database t2db; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Database t1454db; created sucessfully |type|CREATE
+database||message|Database t1465db; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database t2dchb; created sucessfully |type|CREATE
+database||message|Database t2dcfhcb; created sucessfully |type|CREATE
+database||message|Database t1454db; created sucessfully |type|CREATE
+database||message|Database t1db; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Database t1db; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database t1db; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database t2db; created sucessfully |type|CREATE
+database||message|Database t1zddb; created sucessfully |type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Database t2zddb; created sucessfully |type|CREATE
+database||message|Database t1ddb; created sucessfully |type|CREATE
+database||message|Database t2dbb; created sucessfully |type|CREATE
+database||message|Database t34; created sucessfully |type|CREATE
+database|t34;|message|Database Selected t34;|type|USE
+database|t34;|message|Invalid query|type|CREATE
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Database 12; created sucessfully |type|CREATE
+database|t34;|message|Database 123; created sucessfully |type|CREATE
+database||message|Database db1 created sucessfully |type|CREATE
+database|db1|message|Database Selected db1|type|USE
+database|db1|message|Invalid login|type|INVALID
+database|db1|message|Database t34 created sucessfully |type|CREATE
+database|t34|message|Database Selected t34|type|USE
+database|t34|message|Table Created Successfully|type|CREATE
+database||message|Database t34; created sucessfully |type|CREATE
+database|t34;|message|Database Selected t34;|type|USE
+database|t34;|message|Invalid query|type|CREATE
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Database 12; created sucessfully |type|CREATE
+database|t34;|message|Database 123; created sucessfully |type|CREATE
+database|t34;|message|Database Selected t34;|type|USE
+database|t34;|message|Invalid query|type|CREATE
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Database 1df2; created sucessfully |type|CREATE
+database|t34;|message|Database 1fzx23; created sucessfully |type|CREATE
+database|t34;|message|Database Selected t34;|type|USE
+database|t34;|message|Invalid query|type|CREATE
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database|t34;|message|Invalid login|type|INVALID
+database||type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||type|CREATE
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Database 1fzfgx23; created sucessfully |type|CREATE
+database|123;|message|Database Selected 123;|type|USE
+database|123;|message|Invalid query|type|CREATE
+database|123;|message|Invalid login|type|INVALID
+database|123;|message|Invalid login|type|INVALID
+database|123;|message|Invalid login|type|INVALID
+database|123;|message|Invalid login|type|INVALID
+database|123;|message|Invalid login|type|INVALID
+database|123;|message|Invalid login|type|INVALID
+database||message|Database db1; created sucessfully |type|CREATE
+database|db1;|message|Database Selected db1;|type|USE
+database|db1;|message|Table Created Successfully|type|CREATE
+database|db1;|message|Invalid query. Table already exists.|type|CREATE
+database|db1;|message|Invalid query. Table already exists.|type|CREATE
+database|db1;|message|Table Created Successfully|type|CREATE
+database|db1;|message|Invalid query. Table already exists.|type|CREATE
+database|db1;|message|Invalid query. Table already exists.|type|CREATE
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|Database m1 created sucessfully |type|CREATE
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database|m1|message|Database Selected m1|type|USE
+database|m1|message|Invalid query. Length|type|INSERT
+database|m1|message|No Database Selected|type|INSERT
+database|m1|message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|INVALID
+database|m1|message|Database Selected m1|type|USE
+database|m1|message|Invalid query. Length|type|INSERT
+database|m1|message|No Database Selected|type|INSERT
+database|m1|message|Invalid login|type|INVALID
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|No Database Selected|type|INSERT
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|No Database Selected|type|INSERT
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|CREATE
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database||message|Invalid login|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Invalid login|type|INVALID
+database|school|message|Database Selected school|type|USE
+database|school|message|Invalid query|type|CREATE
+database||message|No Database Selected|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Invalid query. Length|type|INSERT
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Invalid login|type|INVALID
+database|school|message|Database Selected school|type|USE
+database|school|message|Invalid query|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Invalid login|type|INVALID
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database||message|Database Selected |type|USE
+database||message|No Database Selected|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database||message|Database Selected |type|USE
+database||message|No Database Selected|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|CREATE
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|CREATE
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|No Database Selected|type|INSERT
+database||message|Invalid login|type|INVALID
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|students|message|Invalid login|type|INVALID
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|students|message|Invalid query|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|students|message|Invalid query|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Invalid query|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|students|message|Invalid query|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|students|message|Invalid query|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|students|message|Invalid query|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Table Created Successfully|type|CREATE
+database||message|Database db created sucessfully |type|CREATE
+database|db|message|Database Selected db|type|USE
+database|db|message|Table Created Successfully|type|CREATE
+database|db|message|Database Selected db|type|USE
+database|db|table|students|message|1 row(s) added |type|INSERT
+database|db|table|students|message|Table Created Successfully|type|CREATE
+database|db|message|Database Selected db|type|USE
+database|db|table|courses|message|1 row(s) added |type|INSERT
+database|db|message|Database Selected db|type|USE
+database|db|message|Database Selected db|type|INSERT
+database|db|table|courses|message|1 row(s) added |type|INSERT
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|USE
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|table|students|message|1 row(s) added |type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT
+database|school|message|Database Selected school|type|USE
+database|school|message|Database Selected school|type|INSERT
+database|school|table|courses|message|1 row(s) added |type|INSERT

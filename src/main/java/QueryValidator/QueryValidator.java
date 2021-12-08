@@ -42,7 +42,6 @@ public class QueryValidator {
             System.out.println("No such database exists.");
             return false;
         }
-
         return true;
     }
 
