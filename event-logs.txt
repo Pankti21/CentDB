@@ -1,0 +1,38 @@
+database||message|Database dbtest1 created sucessfully |type|CREATE
+database|dbtest1|message|Database Selected dbtest1|type|USE
+database|dbtest1|message|Table Created Successfully|type|CREATE
+database||message|Database dbtest1 created sucessfully |type|CREATE
+database|dbtest1|message|Database Selected dbtest1|type|USE
+database|dbtest1|message|Table Created Successfully|type|CREATE
+database|dbtest1|message|Table Created Successfully|type|CREATE
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|Invalid login|type|INVALID
+database|dbtest1|message|Database Selected dbtest1|type|USE
+database|dbtest1|message|Database Selected dbtest1|type|USE
+database|dbtest1|message|Database Selected dbtest1|type|USE
+database||message|Database dbtest1 created sucessfully |type|CREATE
+database|dbtest1|message|Database Selected dbtest1|type|USE
+database|dbtest1|message|Table Created Successfully|type|CREATE
+database|dbtest1|message|Table Created Successfully|type|CREATE
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database||message|Database dbtest1 created sucessfully |type|CREATE
+database|dbtest1|message|Database Selected dbtest1|type|USE
+database|dbtest1|message|Table Created Successfully|type|CREATE
+database|dbtest1|message|Table Created Successfully|type|CREATE
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Dept|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
+database|dbtest1|table|Emp|message|0 row(s) added |type|INSERT
