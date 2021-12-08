@@ -56,15 +56,18 @@ public class QueryProcessor {
 			//meta file creation
 			Files.createFile(Path.of(dbName, "meta.txt"));
 			if (QueryValidator.checkIfDbHasMeta(dbName)) {
-				logger.setChangeMessage(Logger.databaseCreationChangeMessage.formatted(dbName));
-				System.out.printf("Database %s created successfully.\n", dbName);
-			} else {
-				logger.setChangeMessage(Logger.databaseMetaErrorChangeMessage.formatted(dbName));
-				System.out.printf("Database %s created successfully. Meta file creation failed.\n", dbName);
+			 	String messageString = String.format(Logger.databaseCreationChangeMessage, dbName);
+            	logger.setChangeMessage(messageString);
+            	System.out.printf("Database %s created successfully.\n", dbName);
+           	} else {
+            	String messageString = String.format(Logger.databaseMetaErrorChangeMessage, dbName);
+            	logger.setChangeMessage(messageString);
+                System.out.printf("Database %s created successfully. Meta file creation failed.\n", dbName);
 			}
 		} else {
-			logger.setChangeMessage(Logger.databaseMetaErrorChangeMessage.formatted(dbName));
-			System.out.println("Database creation failed.");
+        	String messageString = String.format(Logger.databaseMetaErrorChangeMessage, dbName);
+           	logger.setChangeMessage(messageString);
+            System.out.println("Database creation failed.");
 		}
 	}
 
@@ -506,10 +509,11 @@ public class QueryProcessor {
 		tableRows.put(tableName, newTableData);
 
 		persistTableDataToDisk(tableName);
-		System.out.println("Record added successfully.");
-		Integer previousSize = tableRows.get(tableName).size();
-		logger.setTableName(tableName);
-		logger.setChangeMessage("%s row(s) added ".formatted(tableRows.get(tableName).size()-previousSize));
+        System.out.println("Record added successfully.");
+        Integer previousSize = tableRows.get(tableName).size();
+        logger.setTableName(tableName);
+        String messageString = String.format("%s row(s) added ", tableRows.get(tableName).size()-previousSize);
+        logger.setChangeMessage(messageString);
 	}
 
 	// write the contents of tableRows to table files
@@ -835,7 +839,6 @@ public class QueryProcessor {
 			}
 			System.out.println();
 		}
-		System.out.println("Got %s rows ".formatted(tableRows.get(selectOptions.getTableName()).size()));
 		logger.setChangeMessage("Got %s rows ".formatted(tableRows.get(selectOptions.getTableName()).size()));
 	}
 

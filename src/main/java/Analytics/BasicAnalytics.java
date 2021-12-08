@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,8 @@ public class BasicAnalytics {
 
 	private LogReader logReader;
 	private static String analysis = "analytics.txt";
+	static int validCount = 0;
+	static int invalidCount = 0;
 	
 	static {
 		File file = new File(analysis);
@@ -32,12 +35,13 @@ public class BasicAnalytics {
 			}
 		}
 	}
-	
+	public static void clear() {
+		validCount = 0;
+		invalidCount = 0;
+	}
 	public String getNumberOfQueries(String currentUser,String database) throws IOException {
 		File file = new File(analysis);
 		
-		int validCount = 0;
-		int invalidCount = 0;
 		logReader = new LogReader();
 		List<MainLogger> logs = logReader.getLogger();
 		if(logs.isEmpty()) {
@@ -45,25 +49,34 @@ public class BasicAnalytics {
 			return "0";
 		}
 		for(MainLogger log:logs) {
-			if(log.getActiveDatabase()==null || log.getUserName() == null) continue;
-			if(log.getActiveDatabase().equals(database) && log.getUserName().equals(currentUser)) {
-				if(log.getLogType().equals(LogType.INVALID)) {
-					invalidCount++;
-				}else {
-					validCount++;
-				}
+			if(log.getActiveDatabase()==null || log.getUserName() == null) {
+				updateCount(log.getLogType());
+			}
+			else if (log.getActiveDatabase().equals(database) && log.getUserName().equals(currentUser)) {
+				updateCount(log.getLogType());
 			}
 		}
 		if(validCount+invalidCount>0) {
-			String analysisString = "user %s submitted %s queries (%s valid | %s invalid) on %s\n".formatted(currentUser,validCount+invalidCount,validCount,invalidCount,database);
-			System.out.println(analysisString);
-			Files.write(file.toPath(), analysisString.getBytes(), StandardOpenOption.APPEND);
+			Formatter formatter = new Formatter();
+			formatter.format("user %s submitted %s queries (%s valid | %s invalid) on %s\n", currentUser,validCount+invalidCount,validCount,invalidCount,database);
+	//		String analysisString = "user %s submitted %s queries (%s valid | %s invalid) on %s\n".formatted(currentUser,validCount+invalidCount,validCount,invalidCount,database);
+	//		System.out.println(analysisString);
+			System.out.println(formatter.toString()); 
+			Files.write(file.toPath(), formatter.toString().getBytes(), StandardOpenOption.APPEND);
+			formatter.close();
 		}else {
 			System.out.format("no queries on %s by %s",database,currentUser);
 		}
 		return null;
-	}
+	} 
 	
+	public void updateCount(LogType logType) {
+		if(logType.equals(LogType.INVALID)) {
+			invalidCount++;
+		}else {
+			validCount++;
+		}
+	}
 	public void getUpdateOperations(String currentUser, String database) throws IOException {
 		logReader = new LogReader();
 		File file = new File(analysis);
@@ -84,14 +97,20 @@ public class BasicAnalytics {
 			}
 		}
 		if(countMap.isEmpty()) {
-			String outputString = "No Update operations are performed on database %s\n".formatted(database);
-			System.out.println(outputString);
-			Files.write(file.toPath(), outputString.getBytes(), StandardOpenOption.APPEND);
+			Formatter formatter = new Formatter();
+			formatter.format("No Update operations are performed on database %s\n", database);
+			//String outputString = "No Update operations are performed on database %s\n".formatted(database);
+			System.out.println(formatter.toString());
+			Files.write(file.toPath(), formatter.toString().getBytes(), StandardOpenOption.APPEND);
+			formatter.close();
 		}
 		for(Entry<String, Integer> countEntry : countMap.entrySet()) {
-			String outputString = "Total %s Update operations are performed on %s\n".formatted(countEntry.getValue(),countEntry.getKey());
-			System.out.println(outputString);
-			Files.write(file.toPath(), outputString.getBytes(), StandardOpenOption.APPEND);
+			Formatter formatter = new Formatter();
+			formatter.format("Total %s Update operations are performed on %s\n", countEntry.getValue(),countEntry.getKey());
+//			String outputString = "Total %s Update operations are performed on %s\n".formatted(countEntry.getValue(),countEntry.getKey());
+			System.out.println(formatter.toString());
+			Files.write(file.toPath(), formatter.toString().getBytes(), StandardOpenOption.APPEND);
+			formatter.close();
 		}
 
 	}
@@ -102,6 +121,7 @@ public class BasicAnalytics {
 		String queryString = scanner.nextLine();
 		System.out.println("query string is "+queryString);
 		if(queryString.contains("count queries")) {
+			clear();
 			String [] entries = queryString.split(" ");
 			if(!(entries.length==3)) {
 				System.out.println("Invalid count query");
@@ -113,6 +133,7 @@ public class BasicAnalytics {
 				analytics.getNumberOfQueries(args[0], entries[2]);
 			}
 		}else if(queryString.contains("count update")){
+			clear();
 			String [] entries = queryString.split(" ");
 			if(entries.length>3) {
 				System.out.println("Invalid count query");
