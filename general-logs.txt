@@ -29,3 +29,6 @@ user|Pran|database|abcd|table|courses|Total Tables|0|Total Records|0|query|inser
 user|Pran|database|abcd|table|courses|Total Tables|0|Total Records|0|query|course_id int foreign key courses(id));|type|CREATE|start_time|1638984766453ms|execution_time|87562ms
 user|Pran|database|abcd|table|studentenrollment|Total Tables|0|Total Records|0|query|insert into studentenrollment values (890693,11,5408);|type|INSERT|start_time|1638984766453ms|execution_time|0ms
 user|Pran|database|abcd|table|studentenrollment|Total Tables|0|Total Records|0|query|exit|type|INSERT|start_time|1638984766453ms|execution_time|100248ms
+user|test|database|db|Total Tables|2|Total Records|3|query|tstart T1;|type|USE|start_time|1638994929616ms|execution_time|31ms
+user|test|database|db|Total Tables|2|Total Records|3|query|tstart T1;|type|INSERT|start_time|1638994929834ms|execution_time|31ms
+user|test|database|db|Total Tables|2|Total Records|3|query|tstart T1;|type|INSERT|start_time|1638994929834ms|execution_time|0ms

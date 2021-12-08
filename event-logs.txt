@@ -29,3 +29,6 @@ database|abcd|table|courses|message|0 row(s) added |type|INSERT
 database|abcd|table|courses|message|Table Created Successfully|type|CREATE
 database|abcd|table|studentenrollment|message|0 row(s) added |type|INSERT
 database|abcd|table|studentenrollment|message|0 row(s) added |type|INSERT
+database|db|message|Database Selected db|type|USE
+database|db|message|Database Selected db|type|INSERT
+database|db|message|Database Selected db|type|INSERT

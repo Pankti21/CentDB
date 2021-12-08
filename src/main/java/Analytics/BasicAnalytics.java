@@ -56,6 +56,7 @@ public class BasicAnalytics {
 				updateCount(log.getLogType());
 			}
 		}
+
 		if(validCount+invalidCount>0) {
 			Formatter formatter = new Formatter();
 			formatter.format("user %s submitted %s queries (%s valid | %s invalid) on %s\n", currentUser,validCount+invalidCount,validCount,invalidCount,database);
@@ -112,7 +113,6 @@ public class BasicAnalytics {
 			Files.write(file.toPath(), formatter.toString().getBytes(), StandardOpenOption.APPEND);
 			formatter.close();
 		}
-
 	}
 	public static void main(String[] args) throws IOException {
 		BasicAnalytics analytics = new BasicAnalytics();

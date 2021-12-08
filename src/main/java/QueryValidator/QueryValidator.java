@@ -173,7 +173,7 @@ public class QueryValidator {
 
 	// checks if the 'drop table tableName' query is valid
 	public static boolean validateDropTableQuery (List<String> queryChunks) {
-		if (queryChunks.size() != 3) 
+		if (queryChunks.size() != 3)
 		{
 			System.out.println("Too many or few arguments provided in query.");
 			return false;

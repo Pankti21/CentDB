@@ -1,5 +1,8 @@
 package QueryProcessor;
 
+
+
+
 import QueryValidator.QueryValidator;
 
 import java.io.*;
@@ -13,10 +16,13 @@ import Logger.LogType;
 import Logger.Logger;
 import Logger.MainLogger;
 import LoginRegister.Login;
+import TransactionProcessor.TransactionProcessor;
 
 public class QueryProcessor {
 	// path of global data dictionary
 	public static int varcharMaxLength = 8000;
+    public static Date currenttime = new Date(System.currentTimeMillis());
+    public static File file = new File("Transactionlog.txt");
 
 	/**
 	 * {
@@ -41,6 +47,9 @@ public class QueryProcessor {
 	public String currentDatabase = "";
 
 	public MainLogger logger = new MainLogger();
+
+    public QueryProcessor() throws IOException {
+    }
 
 	public void resetDatabaseState () {
 		currentDatabase = "";
@@ -636,12 +645,12 @@ public class QueryProcessor {
 					createDatabase(inputChunks.get(2));
 					logger.setExecutionTimeMillis(System.currentTimeMillis()-logger.getCurrentTimeMillis());
 					logger.setLogType(LogType.CREATE);
-					Logger.log(logger);   
+					Logger.log(logger);
 				} else if (createQueryType.equals("table")) {
 					parseCreateTableQuery(inputChunks);
 					logger.setExecutionTimeMillis(System.currentTimeMillis()-logger.getCurrentTimeMillis());
 					logger.setLogType(LogType.CREATE);
-					Logger.log(logger);   
+					Logger.log(logger);
 				}
 				Long endTime = System.currentTimeMillis();
 				logger.setExecutionTimeMillis(endTime-startTime);
@@ -687,7 +696,7 @@ public class QueryProcessor {
 					selectOptions.setAll(true);
 				}
 				else {
-					for(int i=0;i<columnIndex;i++) {	
+					for(int i=0;i<columnIndex;i++) {
 						if(inputChunks.get(i).equals(",")) {
 							continue;
 						}
@@ -735,6 +744,19 @@ public class QueryProcessor {
 				parseDeleteRowQuery(inputChunks);
 				break;
 
+                case "tstart":
+                    String str1 = inputChunks.get(inputChunks.size() - 1);
+                    FileWriter output = new FileWriter("Transactionlog.txt",true);
+                    output.write("|Transaction: "+str1+"|status: Started|execution time:"+currenttime+"\n");
+                    output.close();
+                    TransactionProcessor tProcessor=new TransactionProcessor(logger);
+                    while(sc.hasNextLine()) {
+                        tProcessor.Process(sc.nextLine());
+                    }
+                    break;
+                case "tend":
+                    System.out.println("Transaction committed successfully");
+                    break;
 			default:
 				startTime = System.currentTimeMillis();
 				endTime = System.currentTimeMillis();
@@ -850,14 +872,14 @@ public class QueryProcessor {
 		//logger.setChangeMessage("Got %s rows ".formatted(tableRows.get(selectOptions.getTableName()).size()));
 	}
 
-	//sample query: delete from tName where columnName = value; 
+	//sample query: delete from tName where columnName = value;
 	public void parseDeleteRowQuery(List<String> inputChunks)
 	{
 		String tableName = inputChunks.get(2);
 		String colName = inputChunks.get(4);
 		String conditionValue = inputChunks.get(6);
 
-		if (currentDatabase.length() == 0) 
+		if (currentDatabase.length() == 0)
 		{
 			System.out.println("No database selected.");
 			return;
@@ -865,7 +887,7 @@ public class QueryProcessor {
 
 		Path tableFilePath = Path.of(currentDatabase, tableName + ".txt");
 
-		if (!Files.exists(tableFilePath)) 
+		if (!Files.exists(tableFilePath))
 		{
 			System.out.println("Table " + tableName + " does not exist on disk. Meta file must be corrupt.");
 			return;
@@ -876,13 +898,13 @@ public class QueryProcessor {
 		int colIdx = 0;
 
 		//get names of table columns from table text file
-		Scanner scanner = null; 
+		Scanner scanner = null;
 		try
 		{
 			scanner = new Scanner(new FileReader(tablePath));
 			String tableColumnsString = scanner.nextLine();
 			String [] columnNames = tableColumnsString.split("[|]");
-			List<String> colList = Arrays.asList(columnNames); 
+			List<String> colList = Arrays.asList(columnNames);
 
 			for(String col : colList)
 			{
@@ -904,19 +926,19 @@ public class QueryProcessor {
 			}
 
 			//delete row from the tableRows hashmap
-			for (Entry <String, List<HashMap<String, String>>> value : tableRows.entrySet()) 
+			for (Entry <String, List<HashMap<String, String>>> value : tableRows.entrySet())
 			{
 				List <HashMap<String,String>> toRemove = new ArrayList <HashMap<String,String>>();
-				if(tableName.compareTo(value.getKey()) == 0) 
+				if(tableName.compareTo(value.getKey()) == 0)
 				{
 					List <HashMap<String,String>> collection = new ArrayList <HashMap<String,String>>();
 					collection = value.getValue();
 
-					for (HashMap row : collection) 
+					for (HashMap row : collection)
 					{
 
-						if(row.containsKey(colName)) 
-						{				
+						if(row.containsKey(colName))
+						{
 							if(((String) row.get(colName)).compareTo(conditionValue)==0)
 							{
 								toRemove.add(row);
@@ -940,14 +962,14 @@ public class QueryProcessor {
 				result += row + "\n";
 			}
 
-			try 
+			try
 			{
 				updatedFile = new FileWriter(tablePath);
 				updatedFile.write((result));
 				updatedFile.close();
-			} 
+			}
 
-			catch (IOException e) 
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
@@ -956,7 +978,7 @@ public class QueryProcessor {
 
 		}
 
-		catch (IOException e) 
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -966,7 +988,7 @@ public class QueryProcessor {
 	public void parseDropTableQuery(String tableName)
 	{
 		//check if no database is selected
-		if (currentDatabase.length() == 0) 
+		if (currentDatabase.length() == 0)
 		{
 			System.out.println("No database selected.");
 			return;
@@ -974,7 +996,7 @@ public class QueryProcessor {
 
 		Path tableFilePath = Path.of(currentDatabase, tableName + ".txt");
 
-		if (!Files.exists(tableFilePath)) 
+		if (!Files.exists(tableFilePath))
 		{
 			System.out.println("Table " + tableName + " does not exist on disk. Meta file must be corrupt.");
 			return;
@@ -988,11 +1010,11 @@ public class QueryProcessor {
 
 		Scanner scanner = null;
 
-		try 
+		try
 		{
 			scanner = new Scanner(new FileReader(metaPath));
 			while (scanner.hasNextLine())
-			{ 
+			{
 				String input = scanner.nextLine();
 				String [] data = input.split("[|]");
 				if (data[3].equals("fk") && data[4].equals(tableName))
@@ -1009,7 +1031,7 @@ public class QueryProcessor {
 					{
 						trows.add(input);
 
-					}	
+					}
 				}
 
 			}
@@ -1018,7 +1040,7 @@ public class QueryProcessor {
 
 		}
 
-		catch (IOException e) 
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -1034,40 +1056,40 @@ public class QueryProcessor {
 				result += row + "\n";
 			}
 
-			try 
+			try
 			{
 				metaFile = new FileWriter(metaPath);
 				metaFile.write((result));
 				metaFile.close();
-			} 
+			}
 
-			catch (IOException e) 
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 
-			//remove meta data of the table		
-			for (Entry <String, List<HashMap<String, String>>> value : tablesMetaData.entrySet()) 
+			//remove meta data of the table
+			for (Entry <String, List<HashMap<String, String>>> value : tablesMetaData.entrySet())
 			{
-				if(tableName.compareTo(value.getKey()) == 0) 
+				if(tableName.compareTo(value.getKey()) == 0)
 				{
 					tablesMetaData.remove(tableName);
-				}			
+				}
 			}
-			
+
 			//remove data from tableRows hashmap
-			for (Entry <String, List<HashMap<String, String>>> value : tableRows.entrySet()) 
+			for (Entry <String, List<HashMap<String, String>>> value : tableRows.entrySet())
 			{
-				if(tableName.compareTo(value.getKey()) == 0) 
+				if(tableName.compareTo(value.getKey()) == 0)
 				{
 					tableRows.remove(tableName);
 				}
 			}
 
 			//delete the table file
-			try 
+			try
 			{
-				boolean tableDropped = Files.deleteIfExists(Path.of(currentDatabase, tableName+ ".txt"));	
+				boolean tableDropped = Files.deleteIfExists(Path.of(currentDatabase, tableName+ ".txt"));
 
 				if(tableDropped)
 				{
