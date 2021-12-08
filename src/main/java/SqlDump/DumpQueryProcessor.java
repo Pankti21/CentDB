@@ -1,6 +1,7 @@
 package SqlDump;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,7 +27,7 @@ public class DumpQueryProcessor {
     public String insertIntoQueryForDump(String tableData, final String tableName, final String[] tableColumnNames, final String[] tableColumnDataTypes) {
         final StringBuilder insertQuery = new StringBuilder();
         insertQuery.append("INSERT").append(" ").append("INTO").append(" ").append(tableName).append(" ").append("(");
-        int colCount=0;
+
         for (final String tableColumn : tableColumnNames) {
             insertQuery.append(tableColumn).append(", ");
 
@@ -83,7 +84,7 @@ public class DumpQueryProcessor {
             while (line != null) {
                 String[] metadata = line.split("\\|");
 
-                if (metadata.length == 4 && metadata[0].equalsIgnoreCase(tableName)) {
+                if ((metadata.length == 4||metadata.length==6) && metadata[0].equalsIgnoreCase(tableName)) {
                     if (metadata[1].equalsIgnoreCase(column)) {
                         if(metadata[2].equalsIgnoreCase("varchar"))
                         {
@@ -95,7 +96,11 @@ public class DumpQueryProcessor {
                             String col= metadata[2]+" PRIMARY KEY"+",";
                             return col;
                         }
-
+                        else if(metadata[3].equalsIgnoreCase("fk"))
+                        {
+                                String col = metadata[2]+"," + " FOREIGN KEY ("+metadata[1]+")"+" REFERENCES " + metadata[4] + "(" + metadata[5] + "),"; //FOREIGN KEY REFERENCES
+                                return col;
+                        }
                     }
                 }
                 else if (metadata.length == 3 && metadata[0].equalsIgnoreCase(tableName)) {

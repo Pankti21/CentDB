@@ -54,13 +54,13 @@ public class SqlDump {
         File allTables = new File(databaseName);
         File[] dbTables = allTables.listFiles();
 
-         String dumpFileLocation = "./src/main/java/OutputDumps/" + databaseName + "-" + System.currentTimeMillis() + ".sql";
+         String dumpFileName = "./src/main/java/OutputDumps/" + databaseName + "-" + System.currentTimeMillis() + ".sql";
         for ( File tableFileName : dbTables)
         {
              String tableName = tableFileName.getName().split("\\.")[0];
             if (!tableName.equalsIgnoreCase("meta"))
             {
-                try ( FileWriter fileWriter = new FileWriter(dumpFileLocation, true);
+                try ( FileWriter fileWriter = new FileWriter(dumpFileName, true);
                       FileReader fileReader = new FileReader(tableFileName);
                       BufferedReader tableReader = new BufferedReader(fileReader))
                 {
