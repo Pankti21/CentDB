@@ -489,9 +489,16 @@ public class QueryProcessor {
 		int idx = 0;
 		for (String column: tableColumnsInOrder) {
 			if (!useAllColumns && !columns.contains(column)) {
+				HashMap<String,String> columnMetaData = getColumnMetaInfo(tableName,column);
+
+				if(columnMetaData.containsKey("pk") && columnMetaData.get("pk").equals("true")){
+					System.out.println("Invalid query. Primary key not provided.");
+					return;
+				}
 				newRowData.put(column, "");
 				continue;
 			}
+
 
 			String data = useAllColumns ? values.get(idx) : values.get(columns.indexOf(column));
 			HashMap<String, String> columnMetaData = getColumnMetaInfo(tableName, column);
@@ -839,7 +846,8 @@ public class QueryProcessor {
 			}
 			System.out.println();
 		}
-		logger.setChangeMessage("Got %s rows ".formatted(tableRows.get(selectOptions.getTableName()).size()));
+		logger.setChangeMessage(String.format("Got %s rows ",tableRows.get(selectOptions.getTableName()).size()));
+		//logger.setChangeMessage("Got %s rows ".formatted(tableRows.get(selectOptions.getTableName()).size()));
 	}
 
 	//sample query: delete from tName where columnName = value; 
