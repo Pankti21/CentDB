@@ -1,5 +1,7 @@
 package ERD;
 
+import QueryValidator.QueryValidator;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -17,6 +19,10 @@ public class ERD {
         System.out.println("Enter database name to generate ERD:");
         Scanner sc = new Scanner(System.in);
         String currentDatabase=sc.nextLine();
+        if(!QueryValidator.checkIfDBExists(currentDatabase)){
+            System.out.println("No such database exists.");
+            return;
+        }
         String path = Path.of(currentDatabase, "meta.txt").toString();
         PrintWriter pw = new PrintWriter("ERD.txt");
         pw.close();
