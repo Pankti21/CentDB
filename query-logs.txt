@@ -1,0 +1,22 @@
+user|Pankti|database||query|create database school;|start_time|1638939496709ms|execution_time|29404ms
+user|Pankti|database||query|age int);|start_time|1638939496709ms|execution_time|31930ms
+user|Pankti|database|school|query|use school;|start_time|1638939496709ms|execution_time|0ms
+user|Pankti|database|school|query|age int);|start_time|1638939496709ms|execution_time|38998ms
+user|Pankti|database|school|query|create table courses (id int primary key, name varchar(64), description varchar(200));|start_time|1638939496709ms|execution_time|48841ms
+user|Pankti|database|school|query|course_id int foreign key courses(id));|start_time|1638939496709ms|execution_time|56105ms
+user|Pankti|database|school|table|students|query|21);|start_time|1638939496709ms|execution_time|6ms
+user|Pankti|database|school|table|students|query|insert into students (id,fname,lname) values (2,test,user);|start_time|1638939496709ms|execution_time|6ms
+user|Pankti|database|school|table|students|query|insert into students (lname, fname, id) values (vyas, pankti, 3);|start_time|1638939496709ms|execution_time|9ms
+user|Pankti|database|school|table|students|query|insert into students (lname, fname, id) values (vyas, pankti, 3);|start_time|1638939496709ms|execution_time|4ms
+user|Pankti|database|school|table|students|query|insert into students (lname, fname) values (vyas, pankti);|start_time|1638939496709ms|execution_time|4ms
+user|Pankti|database|school|table|courses|query|insert into courses values (1, 5408, description);|start_time|1638939496709ms|execution_time|5ms
+user|Pankti|database|school|table|courses|query|create table testtable(id int primary key, age int foreign key);|start_time|1638939496709ms|execution_time|130650ms
+user|Pankti|database|school|table|courses|query|create table students( id int testcol );|start_time|1638939496709ms|execution_time|2ms
+user|Pankti|database|school|table|courses|query|create table students( id int testcol );|start_time|1638939496709ms|execution_time|138641ms
+user|Pankti|database|school|table|courses|query|insert into students values (5, pankti, vyas, testage);|start_time|1638939496709ms|execution_time|7ms
+user|Pankti|database|school|table|courses|query|create table test(id int primary key,name varchar(64) foreign key student(testcol));|start_time|1638939496709ms|execution_time|160968ms
+user|Pankti|database|school|table|courses|query|create table test(id int primary key,name varchar(64) foreign key students(testcol));|start_time|1638939496709ms|execution_time|169927ms
+user|Pankti|database|school|table|courses|query|insert into enrollment values(1, 4, 5);|start_time|1638939496709ms|execution_time|2ms
+user|Pankti|database|school|table|courses|query|create table test(id int primary key, name varchar(64) foreign key students(id));|start_time|1638939496709ms|execution_time|192972ms
+user|Pankti|database|school|table|courses|query|insert into students (id,lname) values (5,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa);|start_time|1638939496709ms|execution_time|3ms
+user|Pankti|database|school|table|courses|query|exit|start_time|1638939496709ms|execution_time|231687ms

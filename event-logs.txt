@@ -1,0 +1,22 @@
+database||message|Database school created sucessfully |type|CREATE
+database||message|Database school created sucessfully |type|CREATE
+database|school|message|Database Selected school|type|USE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|message|Table Created Successfully|type|CREATE
+database|school|table|students|message|0 row(s) added |type|INSERT
+database|school|table|students|message|0 row(s) added |type|INSERT
+database|school|table|students|message|0 row(s) added |type|INSERT
+database|school|table|students|message|0 row(s) added |type|INSERT
+database|school|table|students|message|0 row(s) added |type|INSERT
+database|school|table|courses|message|0 row(s) added |type|INSERT
+database|school|table|courses|message|0 row(s) added |type|CREATE
+database|school|table|courses|message|Invalid query. Table already exists.|type|CREATE
+database|school|table|courses|message|Invalid query. Table already exists.|type|CREATE
+database|school|table|courses|message|Invalid query. Table already exists.|type|INSERT
+database|school|table|courses|message|Invalid query. Table already exists.|type|CREATE
+database|school|table|courses|message|Invalid query. Table already exists.|type|CREATE
+database|school|table|courses|message|Invalid query. Table already exists.|type|INSERT
+database|school|table|courses|message|Invalid query. Table already exists.|type|CREATE
+database|school|table|courses|message|Invalid query. Table already exists.|type|INSERT
+database|school|table|courses|message|Invalid query. Table already exists.|type|INSERT
