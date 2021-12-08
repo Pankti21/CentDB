@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="centdb" />
         <module name="CentDB" />
+        <module name="Data_Project" />
       </profile>
     </annotationProcessing>
   </component>

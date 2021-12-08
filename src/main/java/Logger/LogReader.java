@@ -21,9 +21,12 @@ public class LogReader {
 	
 	public List<MainLogger> getLogger() throws IOException {
 		List<MainLogger> allLogs = new ArrayList<>();
-		File eventLogs = new File(generalLogsFilePath);
-		FileReader eventReader = new FileReader(eventLogs);
-		BufferedReader bufferedReader = new BufferedReader(eventReader);
+		File generalLogs = new File(generalLogsFilePath);
+		if(!generalLogs.exists()) {
+			return new ArrayList<>();
+		}
+		FileReader generalLogReader = new FileReader(generalLogs);
+		BufferedReader bufferedReader = new BufferedReader(generalLogReader);
 		String nextLine = "";
 		while((nextLine=bufferedReader.readLine())!=null) {
 			MainLogger log = new MainLogger();
