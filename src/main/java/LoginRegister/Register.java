@@ -25,6 +25,7 @@ public class Register {
         return userID;
     }
 
+    //https://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html
     String generateHash(String input) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
         byte[] bytes = messageDigest.digest(input.getBytes(StandardCharsets.UTF_8));
